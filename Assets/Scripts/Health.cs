@@ -2,22 +2,47 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [Header("Attributes")]
-    [SerializeField] private int maxHitPoints = 2; // set per prefab
+    private int maxHitPoints;
     private int currentHitPoints;
 
-    private void Awake()
+    [SerializeField] private HealthBar healthBar;
+
+    // Called by EnemyStats when the enemy spawns
+    public void InitializeHealth(int newMaxHP)
     {
-        currentHitPoints = maxHitPoints; // initialize from prefab
+        maxHitPoints = newMaxHP;
+        currentHitPoints = maxHitPoints;
+
+        if (healthBar != null)
+            healthBar.UpdateBar(maxHitPoints, currentHitPoints);
     }
 
     public void TakeDamage(int dmg)
     {
         currentHitPoints -= dmg;
 
+        if (healthBar != null)
+            healthBar.SetCurrentHealth(currentHitPoints);
+
         if (currentHitPoints <= 0)
+            Die();
+    }
+
+    private void Die()
+    {
+        // Notify the spawner (so it knows the enemy died)
+        EnemySpawner.onEnemyDestroy.Invoke();
+
+        // Grant player gold based on enemy price
+        EnemyStats stats = GetComponent<EnemyStats>();
+        if (stats != null)
         {
-            Destroy(gameObject);
+            int reward = stats.price * 10;
+            LevelManager.main.AddGold(reward);
+            Debug.Log($"Enemy defeated! +{reward} gold (Total: {LevelManager.main.playerGold})");
         }
+
+        // Destroy enemy
+        Destroy(gameObject);
     }
 }
