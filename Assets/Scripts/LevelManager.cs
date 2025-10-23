@@ -10,8 +10,29 @@ public class LevelManager : MonoBehaviour
     public Transform Endpoint;
     public Transform[] path;
 
+    public int currency;
+
     private void Awake()
     {
         main = this;
+    }
+
+    private void Start(){
+        currency = 300;
+    }
+
+    public void IncreaseCurrency(int amount){
+        currency += amount;
+    }
+
+    public bool SpendCurrency(int amount){
+        if(amount <= currency){
+            //BUY ITEM
+            currency -= amount;
+            return true;
+        }else{
+            Debug.Log("You do not have the required amount!");
+            return false;
+        }
     }
 }

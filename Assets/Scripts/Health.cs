@@ -4,7 +4,10 @@ public class Health : MonoBehaviour
 {
     [Header("Attributes")]
     [SerializeField] private int maxHitPoints = 2; // set per prefab
+    [SerializeField] private int dollarAmount = 100;
     private int currentHitPoints;
+
+    private bool isDestroyed = false;
 
     private void Awake()
     {
@@ -15,8 +18,11 @@ public class Health : MonoBehaviour
     {
         currentHitPoints -= dmg;
 
-        if (currentHitPoints <= 0)
+        if (currentHitPoints <= 0 && !isDestroyed)
         {
+            EnemySpawner.onEnemyDestroy.Invoke();
+            LevelManager.main.IncreaseCurrency(dollarAmount);
+            isDestroyed = true;
             Destroy(gameObject);
         }
     }

@@ -25,8 +25,17 @@ public class Plot : MonoBehaviour
 
     private void OnMouseDown() {
         if(tower != null) return;
-        GameObject towerToBuild = BuildManager.main.getSelectedTower();
-        tower = Instantiate(towerToBuild, transform.position, Quaternion.identity);
+
+        Tower towerToBuild = BuildManager.main.getSelectedTower();
+
+        if (towerToBuild.cost > LevelManager.main.currency){
+            Debug.Log("You cannot afford this tower!");
+            return;
+        }
+
+        LevelManager.main.SpendCurrency(towerToBuild.cost);
+        
+        tower = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
     }
 
     

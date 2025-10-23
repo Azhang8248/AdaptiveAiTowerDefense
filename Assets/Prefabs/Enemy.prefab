@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3540561896928871052}
   - component: {fileID: 6699236185134729408}
   - component: {fileID: -1776473413311411928}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -184,3 +184,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   maxHitPoints: 3
+  dollarAmount: 50
