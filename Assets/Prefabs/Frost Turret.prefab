@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1837151669944155724}
   - component: {fileID: 5964474733628190176}
-  - component: {fileID: 2765087114497552781}
+  - component: {fileID: 8947251611367831904}
   m_Layer: 0
   m_Name: Frost Turret
   m_TagString: Untagged
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1440026655
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
   m_Color: {r: 0.04004982, g: 0.9433962, b: 0.915124, a: 1}
@@ -91,7 +91,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2765087114497552781
+--- !u!114 &8947251611367831904
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,10 +102,19 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f9c43bc6e9684f14b7eb6d27fe52216, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::FrostTurret
+  turretRotationPoint: {fileID: 0}
+  firePoint: {fileID: 0}
+  bulletPrefab: {fileID: 0}
+  upgradeUI: {fileID: 0}
+  upgradeButton: {fileID: 0}
+  range: 5
+  rotationSpeed: 8
+  fireRate: 1
+  price: 100
   enemyMask:
     serializedVersion: 2
-    m_Bits: 0
-  targetingRange: 2
-  frostps: 0.25
+    m_Bits: 4294967295
+  frostps: 4
   freezeTime: 1
+  slowMultiplier: 0.25

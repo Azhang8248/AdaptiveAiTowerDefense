@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;                 // <- keep outside #if, since you serialize Button
+using UnityEngine.Serialization;      // <- needed for FormerlySerializedAs
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -7,28 +9,46 @@ public class Turret : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform turretRotationPoint;
-    [SerializeField] private Transform firePoint; // Empty GameObject for bullet spawn
-    [SerializeField] private GameObject bulletPrefab; // Bullet prefab reference
+    [SerializeField] private Transform firePoint;         // bullet spawn
+    [SerializeField] private GameObject bulletPrefab;     // bullet prefab
+    [SerializeField] private GameObject upgradeUI;
+    [SerializeField] private Button upgradeButton;        // (optional) remove if unused
 
     [Header("Attributes")]
-    [SerializeField] private float targetingRange = 5f;
+    // Migrate old 'targetingRange' values from existing prefabs to this single field:
+    [FormerlySerializedAs("targetingRange")]
+    [SerializeField] protected float range = 5f;          // <-- the only range field
     [SerializeField] private float rotationSpeed = 8f;
-    [SerializeField] private float fireRate = 1f; // bullets per second
+    [SerializeField] private float fireRate = 1f;         // bullets per second
+    [SerializeField] private int baseUpgradeCost = 100;
 
     [Header("Economy")]
-    [SerializeField] private int price = 100; // 💰 cost to build this turret
+    [SerializeField] private int price = 100;
+
+    private float bpsBase;
+    private float targetingRangeBase;
 
     private Transform target;
     private float fireCooldown;
 
+    private int level = 1;
+
+    private void Start()
+    {
+        bpsBase = fireRate;
+        targetingRangeBase = range;
+
+        if (upgradeButton != null)
+            upgradeButton.onClick.AddListener(Upgrade);
+    }
+
     private void Update()
     {
         // Acquire or lose target
-        if (target == null || Vector2.Distance(transform.position, target.position) > targetingRange || !target.gameObject.activeInHierarchy)
+        if (target == null || Vector2.Distance(transform.position, target.position) > range || !target.gameObject.activeInHierarchy)
         {
             target = FindTarget();
         }
-
         if (target == null) return;
 
         // Rotate toward target
@@ -37,7 +57,7 @@ public class Turret : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
         turretRotationPoint.rotation = Quaternion.Lerp(turretRotationPoint.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
-        // Firing logic
+        // Firing
         fireCooldown -= Time.deltaTime;
         if (fireCooldown <= 0f)
         {
@@ -55,13 +75,12 @@ public class Turret : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             float distance = Vector2.Distance(transform.position, enemy.transform.position);
-            if (distance < shortestDistance && distance <= targetingRange)
+            if (distance < shortestDistance && distance <= range)   // <-- use base 'range'
             {
                 shortestDistance = distance;
                 nearest = enemy.transform;
             }
         }
-
         return nearest;
     }
 
@@ -71,24 +90,63 @@ public class Turret : MonoBehaviour
 
         GameObject bulletObj = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
+        if (bullet != null) bullet.SetTarget(target);
+    }
 
-        if (bullet != null)
+    public virtual void OpenUpgradeUI()
+    {
+        if (upgradeUI != null) upgradeUI.SetActive(true);
+    }
+
+    public void CloseUpgradeUI()
+    {
+        if (upgradeUI != null) upgradeUI.SetActive(false);
+        UIManager.main.SetHoveringState(false);
+    }
+
+    public void Upgrade()
+    {
+        int cost = CalculateCost();
+
+        // Check playerGold instead of currency
+        if (cost > LevelManager.main.playerGold) 
         {
-            bullet.SetTarget(target);
+            Debug.Log("Not enough gold!");
+            return;
         }
+
+        LevelManager.main.SpendGold(cost);  // ✅ now it actually subtracts
+        level++;
+
+        fireRate = CalculateBPS();
+        range = CalculateRange();
+
+        CloseUpgradeUI();
+
+        Debug.Log($"New BPS: {fireRate}, New Range: {range}, New Cost: {CalculateCost()}");
+    }
+
+
+    private int CalculateCost(){
+        return Mathf.RoundToInt(baseUpgradeCost * Mathf.Pow(level, 0.8f));
+    }
+
+    private float CalculateBPS(){
+        return bpsBase * Mathf.Pow(level, 0.5f);
+    }
+
+    private float CalculateRange(){
+        return targetingRangeBase * Mathf.Pow(level, 0.4f);
     }
 
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         Handles.color = Color.cyan;
-        Handles.DrawWireDisc(transform.position, Vector3.forward, targetingRange);
+        Handles.DrawWireDisc(transform.position, Vector3.forward, range); // <-- use base 'range'
     }
 #endif
 
-    // 👇 Simple getter so other scripts (Plot, BuildManager) can check cost
-    public int GetPrice()
-    {
-        return price;
-    }
+    public int GetPrice() => price;
 }
+

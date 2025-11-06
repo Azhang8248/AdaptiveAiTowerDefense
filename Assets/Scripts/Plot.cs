@@ -6,7 +6,8 @@ public class Plot : MonoBehaviour
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Color hoverColor;
 
-    private GameObject turret;
+    private GameObject turretObj;
+    public Turret pturret;
     private Color startColor;
 
     private void Start()
@@ -26,7 +27,13 @@ public class Plot : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (turret != null) return;
+        if (UIManager.main.IsHoveringUI()) return;
+
+        if (turretObj != null)
+        {
+            pturret.OpenUpgradeUI();
+            return;
+        } 
 
         // Get the currently selected turret prefab from the BuildManager
         Turret turretToBuild = BuildManager.main.GetSelectedTurret();
@@ -46,6 +53,7 @@ public class Plot : MonoBehaviour
 
         // Spend gold and build the turret
         LevelManager.main.SpendGold(turretToBuild.GetPrice());
-        turret = Instantiate(turretToBuild.gameObject, transform.position, Quaternion.identity);
+        turretObj = Instantiate(turretToBuild.gameObject, transform.position, Quaternion.identity);
+        pturret = turretObj.GetComponent<Turret>();
     }
 }

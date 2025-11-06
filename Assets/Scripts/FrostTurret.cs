@@ -1,25 +1,23 @@
+// FrostTurret.cs
 using System.Collections;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-public class FrostTurret : MonoBehaviour
+public class FrostTurret : Turret
 {
-    [Header("References")]
+    [Header("Frost")]
     [SerializeField] private LayerMask enemyMask;
-
-    [Header("Attributes")]
-    [SerializeField] private float targetingRange = 5f;
-    [SerializeField] private float frostps = 4f; // frost per second
+    [SerializeField] private float frostps = 4f;
     [SerializeField] private float freezeTime = 1f;
+    [SerializeField] private float slowMultiplier = 0.25f;
 
     private float timeUntilFire;
 
     private void Update()
     {
         timeUntilFire += Time.deltaTime;
-
         if (timeUntilFire >= 1f / frostps)
         {
             FreezeEnemies();
@@ -29,9 +27,9 @@ public class FrostTurret : MonoBehaviour
 
     private void FreezeEnemies()
     {
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(
-            transform.position,
-            targetingRange,
+        var hits = Physics2D.CircleCastAll(
+            (Vector2)transform.position,
+            range,                 // ← use base field
             Vector2.zero,
             0f,
             enemyMask
@@ -39,26 +37,27 @@ public class FrostTurret : MonoBehaviour
 
         foreach (var hit in hits)
         {
-            EnemyMovement em = hit.transform.GetComponent<EnemyMovement>();
-            if (em != null)
-            {
-                em.UpdateSpeed(0.25f); // slow down to 25%
-                StartCoroutine(ResetEnemySpeed(em));
-            }
+            var em = hit.transform.GetComponent<EnemyMovement>();
+            if (em == null) continue;
+
+            em.UpdateSpeed(slowMultiplier);
+            StartCoroutine(ResetEnemySpeed(em));
         }
     }
 
     private IEnumerator ResetEnemySpeed(EnemyMovement em)
     {
         yield return new WaitForSeconds(freezeTime);
-        em.ResetSpeed();
+        if (em != null) em.ResetSpeed();
     }
 
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         Handles.color = Color.cyan;
-        Handles.DrawWireDisc(transform.position, Vector3.forward, targetingRange);
+        Handles.DrawWireDisc(transform.position, Vector3.forward, range); // ← base field
     }
 #endif
 }
+
+
