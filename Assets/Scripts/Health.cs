@@ -11,7 +11,11 @@ public class Health : MonoBehaviour
 
     private void Awake()
     {
-        currentHitPoints = maxHitPoints; // initialize from prefab
+        maxHitPoints = newMaxHP;
+        currentHitPoints = maxHitPoints;
+
+        if (healthBar != null)
+            healthBar.UpdateBar(maxHitPoints, currentHitPoints);
     }
 
     public void TakeDamage(int dmg)
@@ -25,5 +29,8 @@ public class Health : MonoBehaviour
             isDestroyed = true;
             Destroy(gameObject);
         }
+
+        // Destroy enemy
+        Destroy(gameObject);
     }
 }

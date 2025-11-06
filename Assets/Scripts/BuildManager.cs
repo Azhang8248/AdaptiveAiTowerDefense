@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BuildManager : MonoBehaviour
@@ -7,19 +5,22 @@ public class BuildManager : MonoBehaviour
     public static BuildManager main;
 
     [Header("References")]
-    [SerializeField] private Tower[] towers;
+    [SerializeField] private Turret[] turrets; // drag your turret prefabs here
 
-    private int selectedTower = 0;
+    private int selectedTurret = 0;
 
-    private void Awake() {
+    private void Awake()
+    {
         main = this;
     }
 
-    public Tower getSelectedTower() {
-        return towers[selectedTower];
+    public Turret GetSelectedTurret()
+    {
+        return turrets[selectedTurret];
     }
 
-    public void SetSelectedTower(int _selectedTower){
-        selectedTower = _selectedTower;
+    public void SetSelectedTurret(int _selectedTurret)
+    {
+        selectedTurret = _selectedTurret;
     }
 }

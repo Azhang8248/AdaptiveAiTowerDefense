@@ -78,8 +78,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1440026655
+  m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   m_Color: {r: 0.8784314, g: 0.50060636, b: 0, a: 1}
@@ -106,10 +106,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   turretRotationPoint: {fileID: 2808562048557630849}
   firePoint: {fileID: 7752854941184457192}
+  bulletPrefab: {fileID: 8320670469163089265, guid: f92e6504254c1ec4b84a773188ae8783, type: 3}
   targetingRange: 10
   rotationSpeed: 200
   fireRate: 0.5
-  bulletPrefab: {fileID: 8320670469163089265, guid: f92e6504254c1ec4b84a773188ae8783, type: 3}
+  price: 150
 --- !u!1 &5011079950934667942
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,8 +219,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1440026655
+  m_SortingLayer: 1
   m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.08025503, g: 0, b: 1, a: 1}

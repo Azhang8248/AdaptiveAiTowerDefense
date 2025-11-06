@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Plot : MonoBehaviour
@@ -8,35 +6,46 @@ public class Plot : MonoBehaviour
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Color hoverColor;
 
-    private GameObject tower;
+    private GameObject turret;
     private Color startColor;
 
-    private void Start() {
+    private void Start()
+    {
         startColor = sr.color;
     }
 
-    private void OnMouseEnter() {
+    private void OnMouseEnter()
+    {
         sr.color = hoverColor;
     }
 
-    private void OnMouseExit() {
+    private void OnMouseExit()
+    {
         sr.color = startColor;
     }
 
-    private void OnMouseDown() {
-        if(tower != null) return;
+    private void OnMouseDown()
+    {
+        if (turret != null) return;
 
-        Tower towerToBuild = BuildManager.main.getSelectedTower();
+        // Get the currently selected turret prefab from the BuildManager
+        Turret turretToBuild = BuildManager.main.GetSelectedTurret();
 
-        if (towerToBuild.cost > LevelManager.main.currency){
-            Debug.Log("You cannot afford this tower!");
+        if (turretToBuild == null)
+        {
+            Debug.LogWarning("No turret selected!");
             return;
         }
 
-        LevelManager.main.SpendCurrency(towerToBuild.cost);
-        
-        tower = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
-    }
+        // Check if the player can afford this turret
+        if (turretToBuild.GetPrice() > LevelManager.main.playerGold)
+        {
+            Debug.Log("You cannot afford this turret!");
+            return;
+        }
 
-    
+        // Spend gold and build the turret
+        LevelManager.main.SpendGold(turretToBuild.GetPrice());
+        turret = Instantiate(turretToBuild.gameObject, transform.position, Quaternion.identity);
+    }
 }

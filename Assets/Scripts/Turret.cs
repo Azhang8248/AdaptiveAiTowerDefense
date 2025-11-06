@@ -1,21 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class Turret : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform turretRotationPoint;
-    [SerializeField] private Transform firePoint; // empty GameObject for spawn position
+    [SerializeField] private Transform firePoint; // Empty GameObject for bullet spawn
+    [SerializeField] private GameObject bulletPrefab; // Bullet prefab reference
 
     [Header("Attributes")]
     [SerializeField] private float targetingRange = 5f;
     [SerializeField] private float rotationSpeed = 8f;
     [SerializeField] private float fireRate = 1f; // bullets per second
 
-    [Header("Bullet")]
-    [SerializeField] private GameObject bulletPrefab; // bullet prefab reference
+    [Header("Economy")]
+    [SerializeField] private int price = 100; // 💰 cost to build this turret
 
     private Transform target;
     private float fireCooldown;
@@ -68,7 +69,6 @@ public class Turret : MonoBehaviour
     {
         if (bulletPrefab == null || firePoint == null) return;
 
-        Debug.Log("Turret fired!");
         GameObject bulletObj = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
 
@@ -85,4 +85,10 @@ public class Turret : MonoBehaviour
         Handles.DrawWireDisc(transform.position, Vector3.forward, targetingRange);
     }
 #endif
+
+    // 👇 Simple getter so other scripts (Plot, BuildManager) can check cost
+    public int GetPrice()
+    {
+        return price;
+    }
 }
