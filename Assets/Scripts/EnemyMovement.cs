@@ -6,10 +6,6 @@ public class EnemyMovement : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
-
-    [Header("Attributes")]
-    [SerializeField] private float moveSpeed;
-
     private Transform target;
     private int pathIndex = 0;
 

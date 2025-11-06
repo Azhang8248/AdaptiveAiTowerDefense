@@ -1,11 +1,9 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    [Header("Attributes")]
-    [SerializeField] private int maxHitPoints; // set per prefab
+    private int maxHitPoints;
     private int currentHitPoints;
     [SerializeField] public HealthBar healthBar;
 
@@ -15,19 +13,37 @@ public class Health : MonoBehaviour
     // Called by EnemyStats when the enemy spawns
     public void InitializeHealth(int newMaxHP)
     {
-        currentHitPoints = maxHitPoints; // initialize from prefab
-        healthBar.UpdateBar(maxHitPoints, currentHitPoints);
+        maxHitPoints = newMaxHP;
+        currentHitPoints = maxHitPoints;
+
+        if (healthBar != null)
+            healthBar.UpdateBar(maxHitPoints, currentHitPoints);
     }
 
     public void TakeDamage(int dmg)
     {
-        currentHitPoints -= dmg;
-        healthBar.SetCurrentHealth(currentHitPoints);
-        if (currentHitPoints <= 0)
-        {
-            Die();
-        }
+        // If shield exists, hit the shield
+            var shield = GetComponent<Shield>();
+            if (shield != null && shield.enabled)
+            {
+                shield.Absorb();
+                return;
+            }
+            
+            currentHitPoints -= dmg;
+
+            if (healthBar != null)
+                healthBar.SetCurrentHealth(currentHitPoints);
+
+            if (currentHitPoints <= 0)
+                Die();
+        
     }
+
+    public int getCurrentHitPoints()
+   {
+        return currentHitPoints;
+   }
 
     public int getMaxHitPoints()
     {

@@ -20,7 +20,8 @@ public class HealthBar : MonoBehaviour
     }
 
     void Update()
-   {
+     {
+          if (target == null) return;
         transform.eulerAngles = new Vector3(0, 0, 0);
         transform.position = target.position + offset;
    }

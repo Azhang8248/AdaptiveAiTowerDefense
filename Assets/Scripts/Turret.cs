@@ -68,7 +68,7 @@ public class Turret : MonoBehaviour
     {
         if (bulletPrefab == null || firePoint == null) return;
 
-        Debug.Log("Turret fired!");
+        // Debug.Log("Turret fired!");
         GameObject bulletObj = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
 

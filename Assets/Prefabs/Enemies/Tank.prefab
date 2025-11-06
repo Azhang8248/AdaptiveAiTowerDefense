@@ -35,7 +35,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5416657970751576625}
+  - {fileID: 9041428260525724283}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7724572755423179054
@@ -136,8 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
   price: 5
-  hp: 10
-  moveSpeed: 0.5
+  hp: 8
+  moveSpeed: 1
 --- !u!114 &7117507468333550677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 987fb6d14e3998442a2fc19ae8d53414, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  healthBar: {fileID: 1785652540596906251}
+  healthBar: {fileID: 6572670246668133890}
 --- !u!114 &6572670246668133890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3274a762b30870548ba73ba5f4fbbc43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthBar
-  slider: {fileID: 3558367450625697161}
+  slider: {fileID: 1303634290484371592}
   target: {fileID: 6372984466539352573}
   offset: {x: 0, y: 0, z: 0}
 --- !u!1001 &5446668462223995501
@@ -273,6 +273,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas_Healthbar
       objectReference: {fileID: 0}
+    - target: {fileID: 1653732393215470856, guid: 6cd22592dad251d429388f2598face24, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 6003753078222904166, guid: 6cd22592dad251d429388f2598face24, type: 3}
       propertyPath: target
       value: 
@@ -290,20 +294,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6cd22592dad251d429388f2598face24, type: 3}
---- !u!114 &1785652540596906251 stripped
+--- !u!114 &1303634290484371592 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6003753078222904166, guid: 6cd22592dad251d429388f2598face24, type: 3}
-  m_PrefabInstance: {fileID: 5446668462223995501}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3274a762b30870548ba73ba5f4fbbc43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthBar
---- !u!114 &3558367450625697161 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8860735837167704036, guid: 6cd22592dad251d429388f2598face24, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6449440956658340581, guid: 6cd22592dad251d429388f2598face24, type: 3}
   m_PrefabInstance: {fileID: 5446668462223995501}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -312,8 +305,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
---- !u!224 &5416657970751576625 stripped
+--- !u!224 &9041428260525724283 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 53376488229087324, guid: 6cd22592dad251d429388f2598face24, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3958645392152682518, guid: 6cd22592dad251d429388f2598face24, type: 3}
   m_PrefabInstance: {fileID: 5446668462223995501}
   m_PrefabAsset: {fileID: 0}

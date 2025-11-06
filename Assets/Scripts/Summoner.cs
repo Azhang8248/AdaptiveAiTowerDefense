@@ -7,8 +7,8 @@ public class Summoner : MonoBehaviour
     public GameObject summonPrefab; // Drag summon prefab
 
     [Header("Settings")]
-    public int numberOfSummons = 3;
-    public float summonDelay = 4f;
+    [SerializeField] private int numberOfSummons = 3;
+    [SerializeField] private float summonDelay = 4f;
     private float timer = 0f;
     private EnemyMovement enemyMovement;
     private void Awake()
@@ -17,11 +17,12 @@ public class Summoner : MonoBehaviour
    }
     void Update()
     {
-        timer += Time.deltaTime;
-        if(timer >= summonDelay)
-      {
-            timer = 0f;
-            SummonEnemies();
+    timer += Time.deltaTime;
+        
+        if(timer >= summonDelay) {
+
+          SummonEnemies();
+          timer = 0f;
       }
 
     }

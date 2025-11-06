@@ -28,14 +28,13 @@ public class Slime : MonoBehaviour
 
     void Split()
     {
-        // Subtracting the scale for each cloned slime
+        // subtracting the scale for each cloned slime
         Vector2 currentScale = transform.localScale;
         Vector2 newScale = currentScale - new Vector2(scaleReduction, scaleReduction);
 
         // checks if it's larger than the minimum
         if (newScale.x < minScale || newScale.y < minScale) return;
 
-        // For each split slime
         for (int i = 0; i < splitNumber; i++)
         {
             Vector2 spawnPos = (Vector2)transform.position + Random.insideUnitCircle * .2f;
@@ -47,7 +46,7 @@ public class Slime : MonoBehaviour
             EnemyStats cloneStats = clone.GetComponent<EnemyStats>();
             Health cloneHealth = clone.GetComponent<Health>();
 
-            // Altering the clone's price/hp/movespeed by ratio
+            // altering the clone's price/hp/movespeed by ratio
             if (cloneStats != null && stats != null)
             {
                 cloneStats.price = Mathf.Max(1, Mathf.RoundToInt(stats.price * cloneStatsRatio));
