@@ -11,6 +11,8 @@ public class EnemyMovement : MonoBehaviour
 
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float baseSpeed; // remember original speed so we can restore it
+        
+
 
     private void Start()
     {
@@ -42,6 +44,27 @@ public class EnemyMovement : MonoBehaviour
 
         Vector2 direction = (target.position - transform.position).normalized;
         rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
+
+
+        // alters the speed of the animation
+        // faster speed = faster animation
+        Animator animator = GetComponent<Animator>();
+        if(animator != null)
+        {
+            animator.speed = moveSpeed / 2f;
+        }
+
+        // flips sprite when moving the other direction
+        if (direction.x != 0)
+        {
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.flipX = direction.x < 0;
+            }
+        }
+
+
     }
 
     // 👇 Frost turret calls this to change enemy speed temporarily

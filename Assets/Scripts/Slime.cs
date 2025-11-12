@@ -6,8 +6,8 @@ public class Slime : MonoBehaviour
     [Header("Settings")]
     private int splitNumber = 2;
     public GameObject slimePrefab; // Drag slime prefab (itself)
-    private float minScale = .5f;    
-    private float scaleReduction = .2f;
+    private float minScale = 2.5f;    
+    private float scaleReduction = 1f;
     [SerializeField] private float cloneStatsRatio = (2f / 3f); // clone stats compared to original slime
     [SerializeField] private float cloneSpeedRatio = 1.3f; // clone speed compared to original slime
 

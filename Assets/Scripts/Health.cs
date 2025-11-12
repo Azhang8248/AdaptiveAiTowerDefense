@@ -5,12 +5,19 @@ public class Health : MonoBehaviour
 {
     private int maxHitPoints;
     private int currentHitPoints;
-    [SerializeField] public HealthBar healthBar;
+    public HealthBar healthBar;
+    public Animator animator;
 
     // Other scripts can subscribe to this (slime)
     public event Action OnDeath;
 
     // Called by EnemyStats when the enemy spawns
+
+private void Awake()
+   {
+        animator = GetComponent<Animator>();
+   }
+
     public void InitializeHealth(int newMaxHP)
     {
         maxHitPoints = newMaxHP;
@@ -72,6 +79,15 @@ public class Health : MonoBehaviour
         }
 
         // Destroy enemy
+
+
+    //     if(animator != null)
+    //     {
+    //     animator = GetComponent<Animator>();
+    //   }
+
+    //     animator.SetTrigger("Die");
+
         Destroy(gameObject);
    }
 }
