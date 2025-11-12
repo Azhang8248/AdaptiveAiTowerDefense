@@ -23,17 +23,34 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private TextMeshProUGUI waveText;
 
+    [Header("Background Settings")]
+    [SerializeField] private Sprite backgroundSprite;   // drag your sprite here in the inspector
+    [SerializeField] private Vector2 backgroundScale = new Vector2(2, 2); // adjust as needed
+
     public enum Difficulty { Easy, Medium, Hard }
 
     private void Awake()
     {
         main = this;
         InitializePlayerStats();
+        CreateBackground();
     }
 
     private void Start()
     {
         UpdateUI();
+    }
+
+    private void CreateBackground()
+    {
+        if (backgroundSprite == null) return;
+
+        GameObject bg = new GameObject("Background");
+        var sr = bg.AddComponent<SpriteRenderer>();
+        sr.sprite = backgroundSprite;
+        sr.sortingOrder = -100; // ensure it’s behind everything
+        bg.transform.position = new Vector3(0, 0, 10); // push it behind camera
+        bg.transform.localScale = new Vector3(backgroundScale.x, backgroundScale.y, 1f);
     }
 
     // ==============================
@@ -86,24 +103,22 @@ public class LevelManager : MonoBehaviour
         {
             playerHealth = 0;
             Debug.Log("Game Over!");
-            // TODO: trigger GameOver UI or restart
         }
 
         UpdateUI();
     }
 
-    // ==============================
-    // UI UPDATES
-    // ==============================
     public void UpdateUI()
     {
         if (healthText != null)
             healthText.text = $"{playerHealth} HP";
-
         if (goldText != null)
             goldText.text = $"{playerGold} Gold";
-
         if (waveText != null)
             waveText.text = $"Wave {EnemySpawner.CurrentWave}";
     }
+
+    public int GetPlayerHP() => playerHealth;
+    public int GetPlayerGold() => playerGold;
+    public Difficulty GetDifficulty() => difficulty;
 }
