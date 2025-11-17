@@ -8,6 +8,7 @@ public class Healer : MonoBehaviour
     [SerializeField] private float healRadius = 2.5f;
     [SerializeField] private float healAmount = 2f;
     [SerializeField] private int maxTargets = 3;
+    private Animator animator;
 
     private float timer = 0f;
 
@@ -24,6 +25,9 @@ public class Healer : MonoBehaviour
 
     private void Heal()
     {
+        animator = GetComponentInChildren<Animator>();
+        animator.SetTrigger("Heal");
+
         // Finds nearby enemies
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         var healList = new List<(Health health, float current, float max, float distance)>();
@@ -49,7 +53,7 @@ public class Healer : MonoBehaviour
 
         if (healList.Count == 0) return;
 
-        // Sorts by max HP — prioritizes tankier allies
+        // Sorts by max HP ï¿½ prioritizes tankier allies
         healList.Sort((a, b) => b.max.CompareTo(a.max));
 
         for (int i = 0; i < healList.Count && i < maxTargets; i++)

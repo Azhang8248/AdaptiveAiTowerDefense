@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 689486809052688110}
   - component: {fileID: 4117267877148334789}
+  - component: {fileID: 6272507666741093149}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 666244636328227079}
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -8140262817803833006, guid: 2debe688be99e9e4f9619441613e989a, type: 3}
+  m_Sprite: {fileID: 911642492377678726, guid: 75f30c90a8c2dcc44a28f4f0258d2125, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -90,6 +91,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &6272507666741093149
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3822971834604055250}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 078045f789d013c44bc48a385c18119c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8929553551938059930
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,7 +368,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1653732393215470856, guid: 6cd22592dad251d429388f2598face24, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.7
+      value: -0.6
       objectReference: {fileID: 0}
     - target: {fileID: 6003753078222904166, guid: 6cd22592dad251d429388f2598face24, type: 3}
       propertyPath: target
