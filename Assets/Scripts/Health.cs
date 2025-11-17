@@ -3,22 +3,16 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    private int maxHitPoints;
-    private int currentHitPoints;
-    public HealthBar healthBar;
-    public Animator animator;
+    private float maxHitPoints;
+    private float currentHitPoints;
 
-    // Other scripts can subscribe to this (slime)
+    [SerializeField] private HealthBar healthBar;
+
+    // Other scripts can subscribe to this (e.g. Slime)
     public event Action OnDeath;
 
     // Called by EnemyStats when the enemy spawns
-
-private void Awake()
-   {
-        animator = GetComponent<Animator>();
-   }
-
-    public void InitializeHealth(int newMaxHP)
+    public void InitializeHealth(float newMaxHP)
     {
         maxHitPoints = newMaxHP;
         currentHitPoints = maxHitPoints;
@@ -27,47 +21,41 @@ private void Awake()
             healthBar.UpdateBar(maxHitPoints, currentHitPoints);
     }
 
-    public void TakeDamage(int dmg)
+    /// <summary>
+    /// Deals float damage � supports decimal amounts like 0.1f, 0.25f, etc.
+    /// Handles shields as an extra HP layer (no overflow to HP if shield breaks).
+    /// </summary>
+    public void TakeDamage(float dmg)
     {
-        // If shield exists, hit the shield
-            var shield = GetComponent<Shield>();
-            if (shield != null && shield.enabled)
-            {
-                shield.Absorb();
-                return;
-            }
-            
-            currentHitPoints -= dmg;
+        // --- Check for active shield ---
+        Shield shield = GetComponent<Shield>();
+        if (shield != null && shield.IsActive())
+        {
+            shield.TakeShieldDamage(dmg);
+            return; // Shield absorbed the hit; don't affect health yet.
+        }
 
-            if (healthBar != null)
-                healthBar.SetCurrentHealth(currentHitPoints);
+        // --- Apply HP damage ---
+        currentHitPoints -= dmg;
+        currentHitPoints = Mathf.Max(currentHitPoints, 0f);
 
-            if (currentHitPoints <= 0)
-                Die();
-        
+        if (healthBar != null)
+            healthBar.SetCurrentHealth(currentHitPoints);
+
+        // --- Handle death ---
+        if (currentHitPoints <= 0f)
+            Die();
     }
 
-    public int getCurrentHitPoints()
-   {
-        return currentHitPoints;
-   }
-
-    public int getMaxHitPoints()
-    {
-        return maxHitPoints;
-    }
-   
-   public void setMaxHitPoints(int hitPoints)
-   {
-        maxHitPoints = hitPoints;
-   }
+    public float GetCurrentHitPoints() => currentHitPoints;
+    public float GetMaxHitPoints() => maxHitPoints;
+    public void SetMaxHitPoints(float hitPoints) => maxHitPoints = hitPoints;
 
     private void Die()
     {
-        // Notify the spawner (so it knows the enemy died)
+        // Notify spawner that an enemy died
         EnemySpawner.onEnemyDestroy.Invoke();
         OnDeath?.Invoke();
-
 
         // Grant player gold based on enemy price
         EnemyStats stats = GetComponent<EnemyStats>();
@@ -78,16 +66,7 @@ private void Awake()
             Debug.Log($"Enemy defeated! +{reward} gold (Total: {LevelManager.main.playerGold})");
         }
 
-        // Destroy enemy
-
-
-    //     if(animator != null)
-    //     {
-    //     animator = GetComponent<Animator>();
-    //   }
-
-    //     animator.SetTrigger("Die");
-
+        // Destroy the enemy object
         Destroy(gameObject);
-   }
+    }
 }

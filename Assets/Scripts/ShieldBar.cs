@@ -1,29 +1,36 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ShieldBar : MonoBehaviour
 {
-   [SerializeField] private Slider slider;
-   [SerializeField] private Transform target;
-   [SerializeField] private Vector3 offset;
+    [SerializeField] private Slider slider;
+    [SerializeField] private Transform target;
+    [SerializeField] private Vector3 offset = new Vector3(0, 1f, 0);
 
-   public void SetCurrentShield(int currentShield)
-   {
-      slider.value = currentShield;
-   }
-   public void UpdateBar(int maxShield, int currentShield)
-   {
-      slider.maxValue = maxShield;
-      slider.value = currentShield;
-   }
-   
-    void Update()
-   {
-      if (target == null) return;
+    public void Initialize(Transform followTarget, int maxShield, int currentShield)
+    {
+        target = followTarget;
+        slider.maxValue = maxShield;
+        slider.value = currentShield;
+    }
 
-        transform.eulerAngles = new Vector3(0, 0, 0);
+    public void SetCurrentShield(int currentShield)
+    {
+        slider.value = Mathf.Clamp(currentShield, 0, slider.maxValue);
+    }
+
+    public void UpdateBar(int maxShield, int currentShield)
+    {
+        slider.maxValue = maxShield;
+        slider.value = Mathf.Clamp(currentShield, 0, maxShield);
+    }
+
+    private void Update()
+    {
+        if (target == null) return;
+
+        // Keep UI upright
+        transform.rotation = Quaternion.identity;
         transform.position = target.position + offset;
-   }
+    }
 }

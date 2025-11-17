@@ -1,108 +1,154 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private Rigidbody2D rb;
-    private Transform target;
-    private int pathIndex = 0;
+    [Header("Movement Settings")]
+    [SerializeField] private float baseSpeed = 2f;
+    private float currentSpeed;
 
-    [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float baseSpeed; // remember original speed so we can restore it
-        
+    [Header("Path Data")]
+    [SerializeField] private Transform[] pathPoints;
+    private int targetIndex = 0;
+    private Transform targetPoint;
 
+    [Header("Visual Settings")]
+    [SerializeField] private Transform visualRoot;   // drag your Sprite child here (optional)
+    [SerializeField] private float rotationOffset = -90f; // 0=right-facing sprite, -90=up-facing
+
+    private EnemyStats stats;
+    private float slowTimer = 0f;
+    private float slowMultiplier = 1f;
+
+    private Vector2 lastPosition; // 🔹 to track movement direction over time
 
     private void Start()
     {
-        target = LevelManager.main.path[pathIndex];
+        stats = GetComponent<EnemyStats>();
+        currentSpeed = baseSpeed;
+        lastPosition = transform.position;
+
+        if (pathPoints == null || pathPoints.Length == 0)
+        {
+            Debug.LogError($"❌ {name} has no path assigned!");
+            return;
+        }
+
+        targetPoint = pathPoints[targetIndex];
     }
 
     private void Update()
     {
-        if (Vector2.Distance(target.position, transform.position) <= 0.1f)
+        if (pathPoints == null || pathPoints.Length == 0)
+            return;
+
+        // Handle slow timer
+        if (slowTimer > 0)
         {
-            pathIndex++;
-
-            if (pathIndex >= LevelManager.main.path.Length)
-            {
-                EnemySpawner.onEnemyDestroy.Invoke();
-                Destroy(gameObject);
-                return;
-            }
-            else
-            {
-                target = LevelManager.main.path[pathIndex];
-            }
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (target == null) return;
-
-        Vector2 direction = (target.position - transform.position).normalized;
-        rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
-
-
-        // alters the speed of the animation
-        // faster speed = faster animation
-        Animator animator = GetComponent<Animator>();
-        if(animator != null)
-        {
-            animator.speed = moveSpeed / 2f;
+            slowTimer -= Time.deltaTime;
+            if (slowTimer <= 0)
+                slowMultiplier = 1f;
         }
 
-        // flips sprite when moving the other direction
-        if (direction.x != 0)
-        {
-            SpriteRenderer sr = GetComponent<SpriteRenderer>();
-            if (sr != null)
-            {
-                sr.flipX = direction.x < 0;
-            }
-        }
-
-
+        MoveAlongPath();
+        RotateTowardsMovement(); // 🔹 separate, cleaner rotation logic
     }
 
-    // 👇 Frost turret calls this to change enemy speed temporarily
-    public void UpdateSpeed(float slowMultiplier)
+    // =====================================================
+    // PUBLIC METHODS
+    // =====================================================
+
+    public void SetPath(Transform[] points)
     {
-        moveSpeed = baseSpeed * slowMultiplier;
+        pathPoints = points;
+        targetIndex = 0;
+
+        if (pathPoints != null && pathPoints.Length > 0)
+            targetPoint = pathPoints[0];
     }
 
-    // 👇 Frost turret calls this later to restore speed
-    public void ResetSpeed()
-    {
-        moveSpeed = baseSpeed;
-    }
+    public Transform[] GetPath() => pathPoints;
 
-    // 👇 Called by EnemyStats at spawn time
-    public void SetMoveSpeed(float speed)
-    {
-        moveSpeed = speed;
-        baseSpeed = speed; // store original speed for reset
-    }
-
-    // Called by enemies with summons or splits
     public void SetPathIndex(int index)
     {
-        pathIndex = index;
-        if (index < LevelManager.main.path.Length)
+        targetIndex = Mathf.Clamp(index, 0, pathPoints.Length - 1);
+        if (pathPoints != null && pathPoints.Length > 0)
+            targetPoint = pathPoints[targetIndex];
+    }
+
+    public int GetCurrentPathIndex() => targetIndex;
+
+    public void ApplySlow(float multiplier, float duration)
+    {
+        slowMultiplier = Mathf.Clamp(multiplier, 0f, 1f);
+        slowTimer = duration;
+    }
+
+    public void SetMoveSpeed(float newSpeed)
+    {
+        baseSpeed = newSpeed;
+        currentSpeed = baseSpeed * slowMultiplier;
+    }
+
+    // =====================================================
+    // MOVEMENT + ROTATION
+    // =====================================================
+
+    private void MoveAlongPath()
+    {
+        if (targetPoint == null) return;
+
+        float moveSpeed = currentSpeed * slowMultiplier;
+        transform.position = Vector2.MoveTowards(transform.position, targetPoint.position, moveSpeed * Time.deltaTime);
+
+        // Reached waypoint
+        if (Vector2.Distance(transform.position, targetPoint.position) < 0.05f)
         {
-            target = LevelManager.main.path[index];
-        }
-      else
-        {
-            target = null;
+            targetIndex++;
+
+            if (targetIndex >= pathPoints.Length)
+            {
+                OnReachEnd();
+                return;
+            }
+
+            targetPoint = pathPoints[targetIndex];
         }
     }
 
-    // Called by enemeis with summons or splits
-    public int GetCurrentPathIndex()
+    private void RotateTowardsMovement()
     {
-        return pathIndex;
+        Vector2 currentPos = transform.position;
+        Vector2 moveDir = (currentPos - lastPosition).normalized;
+
+        if (moveDir.sqrMagnitude > 0.0001f)
+        {
+            float angle = Mathf.Atan2(moveDir.y, moveDir.x) * Mathf.Rad2Deg + rotationOffset;
+            Quaternion targetRot = Quaternion.Euler(0f, 0f, angle);
+
+            if (visualRoot != null)
+                visualRoot.rotation = Quaternion.Lerp(visualRoot.rotation, targetRot, Time.deltaTime * 10f);
+            else
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime * 10f);
+        }
+
+        lastPosition = currentPos;
+    }
+
+    private void OnReachEnd()
+    {
+        if (stats != null)
+        {
+            int goldReward = stats.price * 10;
+            int damageToPlayer = stats.price;
+
+            LevelManager.main.AddGold(goldReward);
+            LevelManager.main.TakePlayerDamage(damageToPlayer);
+
+            Debug.Log($"{name} reached end! +{goldReward} Gold | Player takes {damageToPlayer} damage");
+        }
+
+        EnemySpawner.onEnemyDestroy.Invoke();
+        Destroy(gameObject);
     }
 }

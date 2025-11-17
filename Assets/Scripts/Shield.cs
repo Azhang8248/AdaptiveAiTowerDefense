@@ -1,39 +1,53 @@
-using System;
 using UnityEngine;
 
 public class Shield : MonoBehaviour
-
 {
     [Header("Settings")]
     [SerializeField] private int maxShield = 5;
     [SerializeField] private ShieldBar shieldBar;
-    public int currentShield;
+    public int currentShield { get; private set; }
+    private Animator animator;
 
-    private Shield shield;
-    void Awake()
+    private void Awake()
     {
-        shield = GetComponent<Shield>();
         currentShield = maxShield;
 
         if (shieldBar != null)
         {
-            shieldBar.UpdateBar(maxShield, currentShield);
+            // Auto-link the bar to follow this enemy
+            shieldBar.Initialize(transform, maxShield, currentShield);
             shieldBar.gameObject.SetActive(true);
         }
     }
 
-    public void Absorb()
+    public void TakeShieldDamage(float dmg)
     {
-        // Takes 1 hit per shot
-        currentShield -= 1;
-        shieldBar.SetCurrentShield(currentShield);
+        currentShield -= Mathf.RoundToInt(dmg);
+        currentShield = Mathf.Max(0, currentShield);
 
-        // Once shield reaches 0, disables the shield
+        if (shieldBar != null)
+            shieldBar.SetCurrentShield(currentShield);
+
         if (currentShield <= 0)
+            DisableShield();
+    }
+
+    public bool IsActive()
+    {
+        return enabled && currentShield > 0;
+    }
+
+    private void DisableShield()
+    {
+        animator = GetComponentInChildren<Animator>();
+        animator.SetTrigger("ShieldBroken");
+        
+        if (shieldBar != null)
         {
             shieldBar.gameObject.SetActive(false);
-            shield.enabled = false;
             shieldBar.enabled = false;
         }
+
+        enabled = false;
     }
 }
