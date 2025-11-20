@@ -9,20 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1396146494802670533}
-<<<<<<< HEAD
-  - component: {fileID: 6659483840752297339}
-=======
->>>>>>> new-baseline
   - component: {fileID: 7540571696728021647}
   - component: {fileID: 1575345543713209121}
   - component: {fileID: 8430186894465319772}
   - component: {fileID: 6647687922363279534}
   - component: {fileID: 8338158116242203795}
   - component: {fileID: 3731088035254751124}
-<<<<<<< HEAD
-=======
   - component: {fileID: -8317757110935068766}
->>>>>>> new-baseline
   m_Layer: 0
   m_Name: Healer
   m_TagString: Enemy
@@ -40,72 +33,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.879988, y: 0.11266676, z: 0}
-<<<<<<< HEAD
-  m_LocalScale: {x: 0.55, y: 0.55, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5601788754295259275}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &6659483840752297339
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4106203147147268594}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
-=======
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -113,7 +40,6 @@ SpriteRenderer:
   - {fileID: 5601788754295259275}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
->>>>>>> new-baseline
 --- !u!50 &7540571696728021647
 Rigidbody2D:
   serializedVersion: 5
@@ -153,16 +79,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8ba07442b94f22458b097bcdd108365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
-<<<<<<< HEAD
-  rb: {fileID: 7540571696728021647}
-  moveSpeed: 2
-  baseSpeed: 0
-=======
   baseSpeed: 0
   pathPoints: []
   visualRoot: {fileID: 8135463758922516166}
   rotationOffset: 0
->>>>>>> new-baseline
 --- !u!114 &8430186894465319772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,10 +139,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Healer
   healDelay: 3
-<<<<<<< HEAD
-  healAmount: 2
-  healRadius: 2.5
-=======
   healRadius: 2.5
   healAmount: 2
   maxTargets: 3
@@ -375,7 +291,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
->>>>>>> new-baseline
 --- !u!1001 &8886272989703921821
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -386,17 +301,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1653732393215470856, guid: 6cd22592dad251d429388f2598face24, type: 3}
       propertyPath: m_LocalScale.x
-<<<<<<< HEAD
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 1653732393215470856, guid: 6cd22592dad251d429388f2598face24, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 1653732393215470856, guid: 6cd22592dad251d429388f2598face24, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -1.2
-=======
       value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 1653732393215470856, guid: 6cd22592dad251d429388f2598face24, type: 3}
@@ -406,7 +310,6 @@ PrefabInstance:
     - target: {fileID: 1653732393215470856, guid: 6cd22592dad251d429388f2598face24, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -0.6
->>>>>>> new-baseline
       objectReference: {fileID: 0}
     - target: {fileID: 2687199982679500419, guid: 6cd22592dad251d429388f2598face24, type: 3}
       propertyPath: m_Name
