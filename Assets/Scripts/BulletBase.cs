@@ -5,7 +5,7 @@ public class BulletBase : MonoBehaviour
 {
     [Header("General Bullet Stats")]
     [SerializeField] private float speed = 10f;
-    [SerializeField] private float damage = 1;
+    [SerializeField] protected float damage = 1;
     [SerializeField] private float aoeRadius = 0f;
     [SerializeField, Range(0f, 1f)] private float homingStrength = 0.3f;
     [SerializeField] private float homingTriggerRange = 1.5f;

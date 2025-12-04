@@ -6,12 +6,7 @@ public class Plot : MonoBehaviour
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Color hoverColor;
 
-<<<<<<< HEAD
-    private GameObject turretObj;
-    public Turret pturret;
-=======
     private GameObject tower;
->>>>>>> a4349a900022c5284c281b5d7e7df56ed328550f
     private Color startColor;
 
     private void Start()
@@ -44,19 +39,9 @@ public class Plot : MonoBehaviour
 
     private void OnMouseDown()
     {
-<<<<<<< HEAD
-        if (UIManager.main.IsHoveringUI()) return;
-
-        if (turretObj != null)
-        {
-            pturret.OpenUpgradeUI();
-            return;
-        } 
-=======
         // 🔒 Ignore clicks when shop open
         if (FindFirstObjectByType<ShopManager>()?.IsOpen == true)
             return;
->>>>>>> a4349a900022c5284c281b5d7e7df56ed328550f
 
         // Don’t allow placing multiple towers on the same plot
         if (tower != null) return;
@@ -75,12 +60,6 @@ public class Plot : MonoBehaviour
             return;
         }
 
-<<<<<<< HEAD
-        // Spend gold and build the turret
-        LevelManager.main.SpendGold(turretToBuild.GetPrice());
-        turretObj = Instantiate(turretToBuild.gameObject, transform.position, Quaternion.identity);
-        pturret = turretObj.GetComponent<Turret>();
-=======
         // Deduct gold and build the tower
         LevelManager.main.SpendGold(towerToBuildPrice(towerToBuild));
         tower = Instantiate(towerToBuild.gameObject, transform.position, Quaternion.identity);
@@ -94,6 +73,5 @@ public class Plot : MonoBehaviour
     {
         var field = tower?.GetType().GetField("price", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         return field != null ? (int)field.GetValue(tower) : 0;
->>>>>>> a4349a900022c5284c281b5d7e7df56ed328550f
     }
 }

@@ -17,11 +17,12 @@ public class TowerBase : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Transform turretRotationPoint;
-    [SerializeField] private Transform firePoint;
+    [SerializeField] protected Transform firePoint;
 
     private Transform target;
     private float fireCooldown;
     private float targetRefreshTimer = 0f;
+    private float fireRateBuff = 1f;
 
     private void Update()
     {
@@ -45,11 +46,12 @@ public class TowerBase : MonoBehaviour
         if (fireCooldown <= 0f)
         {
             Fire();
-            fireCooldown = 1f / attackSpeed;
+            fireCooldown = 1f / GetBuffedFireRate();
+
         }
     }
 
-    private void Fire()
+    protected virtual void Fire()
     {
         if (bulletPrefabs.Count == 0 || firePoint == null || target == null)
             return;
@@ -118,4 +120,20 @@ public class TowerBase : MonoBehaviour
 
     public int GetUnlockWave() => unlockWave;
     public int GetPrice() => price;
+
+    public void ApplyFireRateBuff(float multiplier)
+    {
+        fireRateBuff = multiplier;
+    }
+
+    public void ResetFireRateBuff()
+    {
+        fireRateBuff = 1f;
+    }
+
+    // Used by the firing logic
+    public float GetBuffedFireRate()
+    {
+        return attackSpeed * fireRateBuff;
+    }
 }

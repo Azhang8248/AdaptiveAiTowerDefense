@@ -85,13 +85,19 @@ public class Turret : MonoBehaviour
     }
 
     private void Shoot()
-    {
-        if (bulletPrefab == null || firePoint == null) return;
+{
+    if (bulletPrefab == null || firePoint == null) return;
 
-        GameObject bulletObj = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        Bullet bullet = bulletObj.GetComponent<Bullet>();
-        if (bullet != null) bullet.SetTarget(target);
+    GameObject bulletObj = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+
+    BulletBase bullet = bulletObj.GetComponent<BulletBase>();
+    if (bullet != null)
+    {
+        Vector2 dir = (target.position - firePoint.position).normalized;
+        bullet.Initialize(target, 1, dir);  // 1 = penetration count, adjust if needed
     }
+}
+
 
     public virtual void OpenUpgradeUI()
     {

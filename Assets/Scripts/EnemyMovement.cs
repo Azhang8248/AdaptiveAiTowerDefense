@@ -6,24 +6,6 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float baseSpeed = 2f;
     private float currentSpeed;
 
-<<<<<<< HEAD
-    [Header("Movement")]
-    [SerializeField] private float moveSpeed = 2f;   // current speed
-    private float baseSpeed;                         // unmodified base speed
-
-    private Transform target;
-    private int pathIndex = 0;
-
-    private void Awake()
-    {
-        if (rb == null) rb = GetComponent<Rigidbody2D>();
-    }
-
-    private void Start()
-    {
-        baseSpeed = moveSpeed;                       // remember base speed once
-        target = LevelManager.main.path[pathIndex];
-=======
     [Header("Path Data")]
     [SerializeField] private Transform[] pathPoints;
     private int targetIndex = 0;
@@ -52,7 +34,6 @@ public class EnemyMovement : MonoBehaviour
         }
 
         targetPoint = pathPoints[targetIndex];
->>>>>>> a4349a900022c5284c281b5d7e7df56ed328550f
     }
 
     private void Update()
@@ -129,12 +110,8 @@ public class EnemyMovement : MonoBehaviour
                 OnReachEnd();
                 return;
             }
-<<<<<<< HEAD
-            target = LevelManager.main.path[pathIndex];
-=======
 
             targetPoint = pathPoints[targetIndex];
->>>>>>> a4349a900022c5284c281b5d7e7df56ed328550f
         }
     }
 
@@ -143,37 +120,6 @@ public class EnemyMovement : MonoBehaviour
         Vector2 currentPos = transform.position;
         Vector2 moveDir = (currentPos - lastPosition).normalized;
 
-<<<<<<< HEAD
-        Vector2 dir = (target.position - transform.position).normalized;
-        rb.MovePosition(rb.position + dir * moveSpeed * Time.fixedDeltaTime);
-    }
-
-    // --- API used by FrostTurret ---
-
-    public void SetMoveSpeed(float speed)
-    {
-        baseSpeed = Mathf.Max(0f, speed);
-        moveSpeed = baseSpeed;
-    }
-
-    public void UpdateSpeed(float multiplier)
-    {
-        // multiplier: 1f = normal, 0.25f = 25% speed, etc.
-        multiplier = Mathf.Max(0f, multiplier);
-        moveSpeed = baseSpeed * multiplier;
-    }
-
-    public void ResetSpeed()
-    {
-        moveSpeed = baseSpeed;
-    }
-
-    // Optional: expose current speed if you need it elsewhere
-    public float Speed
-    {
-        get => moveSpeed;
-        set => moveSpeed = Mathf.Max(0f, value);
-=======
         if (moveDir.sqrMagnitude > 0.0001f)
         {
             float angle = Mathf.Atan2(moveDir.y, moveDir.x) * Mathf.Rad2Deg + rotationOffset;
@@ -203,6 +149,5 @@ public class EnemyMovement : MonoBehaviour
 
         EnemySpawner.onEnemyDestroy.Invoke();
         Destroy(gameObject);
->>>>>>> a4349a900022c5284c281b5d7e7df56ed328550f
     }
 }

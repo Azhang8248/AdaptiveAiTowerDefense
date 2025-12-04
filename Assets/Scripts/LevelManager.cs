@@ -65,7 +65,7 @@ public class LevelManager : MonoBehaviour
                 playerHealth = 200;
                 break;
             case Difficulty.Medium:
-                playerGold = 200;
+                playerGold = 1000;
                 playerHealth = 150;
                 break;
             case Difficulty.Hard:

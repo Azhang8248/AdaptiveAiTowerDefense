@@ -26,30 +26,28 @@ public class FrostTurret : Turret
     }
 
     private void FreezeEnemies()
+{
+    RaycastHit2D[] hits = Physics2D.CircleCastAll(
+        transform.position,
+        range,
+        Vector2.zero,
+        0f,
+        enemyMask
+    );
+
+    if (hits.Length > 0)
     {
-        var hits = Physics2D.CircleCastAll(
-            (Vector2)transform.position,
-            range,                 // ← use base field
-            Vector2.zero,
-            0f,
-            enemyMask
-        );
-
-        foreach (var hit in hits)
+        for (int i = 0; i < hits.Length; i++)
         {
-            var em = hit.transform.GetComponent<EnemyMovement>();
-            if (em == null) continue;
-
-            em.UpdateSpeed(slowMultiplier);
-            StartCoroutine(ResetEnemySpeed(em));
+            EnemyMovement em = hits[i].transform.GetComponent<EnemyMovement>();
+            if (em != null)
+            {
+                // Apply 25% movement (75% slow) for freezeTime seconds
+                em.ApplySlow(0.25f, freezeTime);
+            }
         }
     }
-
-    private IEnumerator ResetEnemySpeed(EnemyMovement em)
-    {
-        yield return new WaitForSeconds(freezeTime);
-        if (em != null) em.ResetSpeed();
-    }
+}
 
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()

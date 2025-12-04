@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3146684003368280955}
   - component: {fileID: 1129412205253505183}
   - component: {fileID: 4978041519335249401}
-  - component: {fileID: 8722559998642266476}
+  - component: {fileID: 1390290549258337960}
   m_Layer: 0
   m_Name: Bazooka Bullet
   m_TagString: Untagged
@@ -98,7 +98,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.49999997
---- !u!114 &8722559998642266476
+--- !u!114 &1390290549258337960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,16 +107,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 4502855559888775899}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc44a2f8cad4d704baf7c4acc91b8378, type: 3}
+  m_Script: {fileID: 11500000, guid: 93536da557247410d97c566df2616f96, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BulletBase
-  speed: 5
-  damage: 10
-  aoeRadius: 1
-  homingStrength: 1
-  homingTriggerRange: 1
-  lifeSpan: 5
+  m_EditorClassIdentifier: '::'
+  speed: 10
+  damage: 1
+  aoeRadius: 0
+  homingStrength: 0.3
+  homingTriggerRange: 1.5
+  lifeSpan: 3
   pierces: 0
+  explosionRadius: 2.5
+  explosionDamageMultiplier: 1
+  explodeOnTimer: 1
 --- !u!1 &5761966074191814593
 GameObject:
   m_ObjectHideFlags: 0
