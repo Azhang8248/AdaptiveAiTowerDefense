@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyMovement))]
+[RequireComponent(typeof(Health))]
 public class EnemyStats : MonoBehaviour
 {
     [Header("Enemy Stats")]
@@ -12,7 +13,7 @@ public class EnemyStats : MonoBehaviour
     {
         EnemyMovement movement = GetComponent<EnemyMovement>();
         if (movement != null)
-            movement.SetMoveSpeed(moveSpeed);
+            movement.SetMoveSpeed(moveSpeed); // safe: SetMoveSpeed now exists
 
         Health health = GetComponent<Health>();
         if (health != null)
