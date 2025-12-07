@@ -627,8 +627,8 @@ MonoBehaviour:
   waveText: {fileID: 0}
   backgroundSprite: {fileID: 0}
   backgroundScale: {x: 2, y: 2}
-  backgroundMusic: {fileID: 0}
-  musicVolume: 0.5
+  backgroundMusic: {fileID: 8300000, guid: 90150d6be48ae8d41b91c65a0c5341d4, type: 3}
+  musicVolume: 0.1
 --- !u!4 &356587164
 Transform:
   m_ObjectHideFlags: 0
@@ -913,7 +913,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
