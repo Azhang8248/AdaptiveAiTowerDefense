@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
     public Transform[] path;
 
     [Header("Difficulty Settings")]
-    public Difficulty difficulty = Difficulty.Medium;
+    public DifficultyLevel difficulty = DifficultyLevel.Normal;
 
     [Header("Player Stats")]
     public int playerGold;
@@ -24,14 +24,16 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI waveText;
 
     [Header("Background Settings")]
-    [SerializeField] private Sprite backgroundSprite;   // drag your sprite here in the inspector
-    [SerializeField] private Vector2 backgroundScale = new Vector2(2, 2); // adjust as needed
-
-    public enum Difficulty { Easy, Medium, Hard }
+    [SerializeField] private Sprite backgroundSprite;
+    [SerializeField] private Vector2 backgroundScale = new Vector2(2, 2);
 
     private void Awake()
     {
         main = this;
+
+        // Pull difficulty chosen from menu
+        difficulty = DifficultyManager.CurrentDifficulty;
+
         InitializePlayerStats();
         CreateBackground();
     }
@@ -48,42 +50,34 @@ public class LevelManager : MonoBehaviour
         GameObject bg = new GameObject("Background");
         var sr = bg.AddComponent<SpriteRenderer>();
         sr.sprite = backgroundSprite;
-        sr.sortingOrder = -100; // ensure it’s behind everything
-        bg.transform.position = new Vector3(0, 0, 10); // push it behind camera
+        sr.sortingOrder = -100;
+        bg.transform.position = new Vector3(0, 0, 10);
         bg.transform.localScale = new Vector3(backgroundScale.x, backgroundScale.y, 1f);
     }
 
-    // ==============================
-    // INITIALIZATION
-    // ==============================
     private void InitializePlayerStats()
     {
         switch (difficulty)
         {
-            case Difficulty.Easy:
+            case DifficultyLevel.Easy:
                 playerGold = 300;
                 playerHealth = 200;
                 break;
-            case Difficulty.Medium:
+
+            case DifficultyLevel.Normal:
                 playerGold = 200;
                 playerHealth = 150;
                 break;
-            case Difficulty.Hard:
+
+            case DifficultyLevel.Hard:
                 playerGold = 100;
                 playerHealth = 100;
-                break;
-            default:
-                playerGold = 200;
-                playerHealth = 150;
                 break;
         }
 
         Debug.Log($"Difficulty: {difficulty}, Gold: {playerGold}, Health: {playerHealth}");
     }
 
-    // ==============================
-    // PLAYER STAT MANAGEMENT
-    // ==============================
     public void AddGold(int amount)
     {
         playerGold += amount;
@@ -99,6 +93,7 @@ public class LevelManager : MonoBehaviour
     public void TakePlayerDamage(int damage)
     {
         playerHealth -= damage;
+
         if (playerHealth <= 0)
         {
             playerHealth = 0;
@@ -112,13 +107,27 @@ public class LevelManager : MonoBehaviour
     {
         if (healthText != null)
             healthText.text = $"{playerHealth} HP";
+
         if (goldText != null)
             goldText.text = $"{playerGold} Gold";
+
         if (waveText != null)
             waveText.text = $"Wave {EnemySpawner.CurrentWave}";
     }
+    public DifficultyLevel GetDifficulty()
+    {
+        return difficulty;
+    }
 
-    public int GetPlayerHP() => playerHealth;
-    public int GetPlayerGold() => playerGold;
-    public Difficulty GetDifficulty() => difficulty;
+    public int GetPlayerHP()
+    {
+        return playerHealth;
+    }
+
+    public int GetPlayerGold()
+    {
+        return playerGold;
+    }
+
 }
+

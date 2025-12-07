@@ -12,7 +12,6 @@ public class Summoner : MonoBehaviour
     [SerializeField] private float summonRadius = 0.4f;
     [SerializeField] private float summonScale = 0.5f;
 
-private Animator animator;
     private float timer = 0f;
     private EnemyMovement enemyMovement;
 
@@ -36,9 +35,6 @@ private Animator animator;
 
     private void SummonEnemies()
     {
-        animator = GetComponentInChildren<Animator>();
-        animator.SetTrigger("Summon");
-        
         if (summonPrefab == null)
         {
             Debug.LogWarning($"⚠️ {gameObject.name} tried to summon but no prefab assigned!");

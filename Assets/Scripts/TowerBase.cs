@@ -4,7 +4,6 @@ using UnityEngine;
 public class TowerBase : MonoBehaviour
 {
     [Header("General Tower Stats")]
-    [SerializeField] private string towerName = "Basic Tower";
     [SerializeField] private int unlockWave = 1;
     [SerializeField] private int price = 100;
 
