@@ -186,8 +186,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4538170443697616101}
   - component: {fileID: 6549704991946683071}
+  - component: {fileID: 8980510229863079255}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,7 +204,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.08, y: 0.08, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5761008062248949372}
@@ -255,7 +256,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2387144794898816008, guid: 3151df8094c7cd249a485095d6080b05, type: 3}
+  m_Sprite: {fileID: 152211477394263539, guid: 86b9c2705c40c6a409067cadbdb135b8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -266,6 +267,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &8980510229863079255
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338783570912292528}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0b322c6f2b2feb4d8ef1a0a8e390fa0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1949117607851358273
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -276,7 +299,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1653732393215470856, guid: 6cd22592dad251d429388f2598face24, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.7
+      value: -0.6
       objectReference: {fileID: 0}
     - target: {fileID: 2687199982679500419, guid: 6cd22592dad251d429388f2598face24, type: 3}
       propertyPath: m_Name
@@ -472,7 +495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1405863481074162721, guid: 955a9a47cc2eeaa488902760abdb6980, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.7
+      value: -0.6
       objectReference: {fileID: 0}
     - target: {fileID: 1405863481074162721, guid: 955a9a47cc2eeaa488902760abdb6980, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -530,7 +553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShieldBar
   slider: {fileID: 7531023131724996753}
   target: {fileID: 5761008062248949372}
-  offset: {x: 0, y: -0.7, z: 0}
+  offset: {x: 0, y: -0.6, z: 0}
 --- !u!114 &7531023131724996753 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6650508350041254878, guid: 955a9a47cc2eeaa488902760abdb6980, type: 3}

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using UnityEngine;
 using TMPro;
 
@@ -27,6 +27,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Sprite backgroundSprite;
     [SerializeField] private Vector2 backgroundScale = new Vector2(2, 2);
 
+    [Header("Music Settings")]
+    [SerializeField] private AudioClip backgroundMusic;
+    [SerializeField] private float musicVolume = 0.1f;
+
     private void Awake()
     {
         main = this;
@@ -41,6 +45,11 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         UpdateUI();
+
+        if(AudioManager.Instance != null && backgroundMusic != null)
+      {
+         AudioManager.Instance.PlayMusic(backgroundMusic, musicVolume);
+      }
     }
 
     private void CreateBackground()
@@ -130,4 +139,3 @@ public class LevelManager : MonoBehaviour
     }
 
 }
-

@@ -22,7 +22,7 @@ public class Health : MonoBehaviour
     }
 
     /// <summary>
-    /// Deals float damage — supports decimal amounts like 0.1f, 0.25f, etc.
+    /// Deals float damage ï¿½ supports decimal amounts like 0.1f, 0.25f, etc.
     /// Handles shields as an extra HP layer (no overflow to HP if shield breaks).
     /// </summary>
     public void TakeDamage(float dmg)

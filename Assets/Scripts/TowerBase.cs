@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerBase : MonoBehaviour
@@ -16,17 +16,39 @@ public class TowerBase : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Transform turretRotationPoint;
-    [SerializeField] private Transform firePoint;
+    [SerializeField] protected Transform firePoint;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip shootSFX;
+    [SerializeField] private AudioSource shootSource;
+    
+    // This is only for flamethrower
+    [SerializeField] private bool usesLoopFire = false;
+    private bool loopPlaying = false;
+
+    [SerializeField] private AudioSource loopSource;
+    [SerializeField] private AudioClip loopSFX;
+
 
     private Transform target;
     private float fireCooldown;
     private float targetRefreshTimer = 0f;
+    private float fireRateBuff = 1f;
 
     private void Update()
     {
         // 🔹 If target died or left range → instantly reacquire
         if (target == null || Vector2.Distance(transform.position, target.position) > targetingRange)
-            target = FindFurthestTarget();
+      {
+        target = FindFurthestTarget();
+
+        if(usesLoopFire && loopSource!= null)
+         {
+            loopPlaying = false;
+            loopSource.Stop();
+         }
+      }
+
 
         // 🔹 Periodic refresh (still useful if enemies reshuffle)
         targetRefreshTimer -= Time.deltaTime;
@@ -44,11 +66,14 @@ public class TowerBase : MonoBehaviour
         if (fireCooldown <= 0f)
         {
             Fire();
-            fireCooldown = 1f / attackSpeed;
+            fireCooldown = 1f / GetBuffedFireRate();
+
         }
+
+
     }
 
-    private void Fire()
+    protected virtual void Fire()
     {
         if (bulletPrefabs.Count == 0 || firePoint == null || target == null)
             return;
@@ -59,6 +84,26 @@ public class TowerBase : MonoBehaviour
         Vector2 baseDir = (target.position - firePoint.position).normalized;
         float baseAngle = Mathf.Atan2(baseDir.y, baseDir.x) * Mathf.Rad2Deg;
 
+      if (usesLoopFire)
+      {
+         if(!loopPlaying && loopSource != null && loopSFX != null)
+         {
+            loopSource.clip = loopSFX;
+            loopSource.loop = true;
+            loopSource.Play();
+            loopPlaying = true;
+         }
+      }
+      else
+      {
+        // Sound of the tower firing
+        if(shootSource != null && shootSFX != null)
+      {
+         shootSource.PlayOneShot(shootSFX, 1f);
+      }
+      }
+
+
         for (int i = 0; i < bulletCount; i++)
         {
             float angleOffset = (bulletCount == 1)
@@ -68,6 +113,8 @@ public class TowerBase : MonoBehaviour
             Quaternion finalRot = Quaternion.Euler(0, 0, baseAngle + angleOffset);
 
             GameObject bulletObj = Instantiate(bulletPrefabs[i], firePoint.position, finalRot);
+
+            
             BulletBase bullet = bulletObj.GetComponent<BulletBase>();
             if (bullet != null)
                 bullet.Initialize(target, penetration, finalRot * Vector3.right);
@@ -117,4 +164,20 @@ public class TowerBase : MonoBehaviour
 
     public int GetUnlockWave() => unlockWave;
     public int GetPrice() => price;
+
+    public void ApplyFireRateBuff(float multiplier)
+    {
+        fireRateBuff = multiplier;
+    }
+
+    public void ResetFireRateBuff()
+    {
+        fireRateBuff = 1f;
+    }
+
+    // Used by the firing logic
+    public float GetBuffedFireRate()
+    {
+        return attackSpeed * fireRateBuff;
+    }
 }
