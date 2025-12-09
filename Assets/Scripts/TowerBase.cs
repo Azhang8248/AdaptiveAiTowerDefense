@@ -19,8 +19,8 @@ public class TowerBase : MonoBehaviour
     [SerializeField] protected Transform firePoint;
 
     [Header("Audio")]
-    [SerializeField] private AudioClip shootSFX;
-    [SerializeField] private AudioSource shootSource;
+    [SerializeField] protected AudioClip shootSFX;
+    [SerializeField] protected AudioSource shootSource;
     
     // This is only for flamethrower
     [SerializeField] private bool usesLoopFire = false;

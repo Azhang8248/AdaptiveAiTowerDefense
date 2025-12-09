@@ -12,6 +12,10 @@ public class Summoner : MonoBehaviour
     [SerializeField] private float summonRadius = 0.4f;
     [SerializeField] private float summonScale = 0.5f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip summonSFX;
+    [SerializeField] private AudioSource summonSource;
+
 private Animator animator;
     private float timer = 0f;
     private EnemyMovement enemyMovement;
@@ -70,6 +74,12 @@ private Animator animator;
             else
             {
                 Debug.LogWarning($"⚠️ {summoned.name} has no EnemyMovement component!");
+            }
+
+                
+            if(summonSFX != null & summonSource != null)
+            {
+                summonSource.PlayOneShot(summonSFX, 1f);
             }
 
             // Register to spawner tracking (so wave won’t end early)

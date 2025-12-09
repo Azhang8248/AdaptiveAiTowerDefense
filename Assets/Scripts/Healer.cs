@@ -10,6 +10,11 @@ public class Healer : MonoBehaviour
     [SerializeField] private int maxTargets = 3;
     private Animator animator;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip healSFX;
+    [SerializeField] private AudioSource healSource;
+
+
     private float timer = 0f;
 
     private void Update()
@@ -66,6 +71,11 @@ public class Healer : MonoBehaviour
             // Use negative damage as healing
             target.health.TakeDamage(-healValue);
         }
+
+        if(healSFX != null & healSource != null)
+      {
+         healSource.PlayOneShot(healSFX, 1f);
+      }
     }
 
 #if UNITY_EDITOR

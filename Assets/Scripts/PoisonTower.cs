@@ -13,6 +13,11 @@ public class PoisonTower : TowerBase
         {
             Vector3 pos = firePoint.position + firePoint.up * zoneOffset;
             Instantiate(poisonZonePrefab, pos, Quaternion.identity);
+
+            if(shootSFX != null && shootSource != null)
+            {
+                shootSource.PlayOneShot(shootSFX);
+            }  
         }
 
         // OPTIONAL: call base Fire() if you still want bullets

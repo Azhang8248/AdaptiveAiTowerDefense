@@ -265,6 +265,9 @@ MonoBehaviour:
   firePoint: {fileID: 8561022654456821609}
   shootSFX: {fileID: 8300000, guid: 655295cf7f18321478fe57336910f03d, type: 3}
   shootSource: {fileID: 2701755362596466873}
+  usesLoopFire: 0
+  loopSource: {fileID: 0}
+  loopSFX: {fileID: 0}
 --- !u!82 &2701755362596466873
 AudioSource:
   m_ObjectHideFlags: 0
@@ -278,7 +281,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.2
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0

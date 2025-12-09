@@ -82,5 +82,4 @@ public class Slime : MonoBehaviour
             // optional: tell spawner / manager a new enemy appeared
             // EnemySpawner.RegisterEnemy(clone);
         }
-    }
-}
+    }} 

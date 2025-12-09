@@ -116,8 +116,8 @@ MonoBehaviour:
   bulletPrefabs: []
   turretRotationPoint: {fileID: 2808562048557630849}
   firePoint: {fileID: 7321746669314148045}
-  shootSFX: {fileID: 8300000, guid: e4f2e73cf39b1b643a87dd5198b5f155, type: 3}
-  shootSource: {fileID: 0}
+  shootSFX: {fileID: 8300000, guid: 7c75145014dd6d54b91d31b730eaf4c4, type: 3}
+  shootSource: {fileID: 7976450452821871131}
   usesLoopFire: 0
   loopSource: {fileID: 0}
   loopSFX: {fileID: 0}
@@ -136,7 +136,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.2
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0
