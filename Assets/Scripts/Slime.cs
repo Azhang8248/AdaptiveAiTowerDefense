@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 [RequireComponent(typeof(EnemyMovement))]
 [RequireComponent(typeof(EnemyStats))]
@@ -82,5 +82,4 @@ public class Slime : MonoBehaviour
             // optional: tell spawner / manager a new enemy appeared
             // EnemySpawner.RegisterEnemy(clone);
         }
-    }
-}
+    }} 

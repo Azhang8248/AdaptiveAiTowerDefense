@@ -12,6 +12,11 @@ public class Summoner : MonoBehaviour
     [SerializeField] private float summonRadius = 0.4f;
     [SerializeField] private float summonScale = 0.5f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip summonSFX;
+    [SerializeField] private AudioSource summonSource;
+
+private Animator animator;
     private float timer = 0f;
     private EnemyMovement enemyMovement;
 
@@ -35,6 +40,9 @@ public class Summoner : MonoBehaviour
 
     private void SummonEnemies()
     {
+        animator = GetComponentInChildren<Animator>();
+        animator.SetTrigger("Summon");
+        
         if (summonPrefab == null)
         {
             Debug.LogWarning($"⚠️ {gameObject.name} tried to summon but no prefab assigned!");
@@ -66,6 +74,12 @@ public class Summoner : MonoBehaviour
             else
             {
                 Debug.LogWarning($"⚠️ {summoned.name} has no EnemyMovement component!");
+            }
+
+                
+            if(summonSFX != null & summonSource != null)
+            {
+                summonSource.PlayOneShot(summonSFX, 1f);
             }
 
             // Register to spawner tracking (so wave won’t end early)

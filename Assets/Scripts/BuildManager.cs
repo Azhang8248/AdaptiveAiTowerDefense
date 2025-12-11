@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class BuildManager : MonoBehaviour
@@ -60,4 +60,3 @@ public class BuildManager : MonoBehaviour
 
     public TowerBase[] GetTowers() => towers;
 }
-

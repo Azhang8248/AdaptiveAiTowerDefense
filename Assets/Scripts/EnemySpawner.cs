@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,13 +12,14 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Transform[] pathPoints;
 
     [Header("Wave Settings")]
-    [SerializeField] private float enemiesPerSecond = 1f; // Base spawn rate
+    [SerializeField] private float enemiesPerSecond = 1f;
     [SerializeField] private float timeBetweenWaves = 1f;
 
     [Header("Events")]
     public static UnityEvent onEnemyDestroy = new UnityEvent();
     public static int CurrentWave { get; private set; } = 0;
 
+    // Wave Data
     private int currentWave = 0;
     private float timeSinceLastSpawn;
     private int enemiesAlive;
@@ -26,10 +27,11 @@ public class EnemySpawner : MonoBehaviour
     private bool isSpawningWave;
     private bool waitingForWaveEnd;
 
+    // Budget for Ai
     private int aiBudget;
     private int aiSpent;
 
-    // Hard AI reactivity
+    // Hard AI dynamic adaptability
     private float hardCheckTimer = 0f;
     private float hardRecheckInterval = 3f;
     private int lastTowerHash = 0;
@@ -41,31 +43,27 @@ public class EnemySpawner : MonoBehaviour
     private Queue<object> waveQueue = new Queue<object>();
     private Queue<int> activeComboBuffer = new Queue<int>();
 
-    // ==============================
-    // Counter definitions
-    // ==============================
+    // Tower Counters
     private Dictionary<string, List<int>> towerCounters = new Dictionary<string, List<int>>()
     {
-        { "pistol",       new List<int> { 0, 1 } }, // weak/generic, Walker/Fast
-        { "revolver",     new List<int> { 1, 2 } }, // fast & erratic dodge big shots
-        { "frost",        new List<int> { 3, 4 } }, // loses to swarm 
-        { "shotgun",      new List<int> { 1, 2 } }, // fast dodges, shield tanks
-        { "sniper",       new List<int> { 1, 2 } }, // fast/erratic too quick
-        { "flamethrower", new List<int> { 7, 6 } }, // tank/shield resist aoe
-        { "plasma",       new List<int> { 7, 5 } }, // slime splits, healer outheals
-        { "bazooka",      new List<int> { 2, 7 } }, // fast/erratic outrun splash
-        { "minigun",      new List<int> { 7, 3 } }, // tank/healer soak chip dmg
+        { "pistol",       new List<int> { 0, 1 } },
+        { "revolver",     new List<int> { 1, 2 } },
+        { "frost",        new List<int> { 3, 4 } },
+        { "shotgun",      new List<int> { 1, 2 } },
+        { "sniper",       new List<int> { 1, 2 } },
+        { "flamethrower", new List<int> { 7, 6 } },
+        { "plasma",       new List<int> { 7, 5 } },
+        { "bazooka",      new List<int> { 2, 7 } },
+        { "minigun",      new List<int> { 7, 3 } },
     };
 
-    // ==============================
-    // Combos (enemy index pairs)
-    // ==============================
+    // Combo Pairs
     private List<(int, int)> enemyCombos = new List<(int, int)>
     {
-        (7, 5), // Tank + Healer
-        (1, 2), // Fast + Erratic
-        (4, 6), // Slime + Shield
-        (3, 4), // Summoner + Slime
+        (7, 5),
+        (1, 2),
+        (4, 6),
+        (3, 4),
     };
 
     private void Awake()
@@ -84,14 +82,14 @@ public class EnemySpawner : MonoBehaviour
     {
         enemyUnlocks = new Dictionary<int, List<int>>()
         {
-            { 1,  new List<int> { 0 } }, // Walker
-            { 3,  new List<int> { 1 } }, // Fast
-            { 5,  new List<int> { 2 } }, // Erratic
-            { 8,  new List<int> { 6 } }, // Shield
-            { 10, new List<int> { 4 } }, // Slime
-            { 12, new List<int> { 5 } }, // Healer
-            { 15, new List<int> { 7 } }, // Tank
-            { 18, new List<int> { 3 } }, // Summoner
+            { 1,  new List<int> { 0 } },
+            { 3,  new List<int> { 1 } },
+            { 5,  new List<int> { 2 } },
+            { 8,  new List<int> { 6 } },
+            { 10, new List<int> { 4 } },
+            { 12, new List<int> { 5 } },
+            { 15, new List<int> { 7 } },
+            { 18, new List<int> { 3 } },
         };
     }
 
@@ -112,8 +110,8 @@ public class EnemySpawner : MonoBehaviour
 
         timeSinceLastSpawn += Time.deltaTime;
 
-        // === HARD MODE MID-WAVE ADAPTATION ===
-        if (LevelManager.main.GetDifficulty() == LevelManager.Difficulty.Hard && aiBudget > 0)
+        // HARD MODE ADAPTATION
+        if (LevelManager.main.GetDifficulty() == DifficultyLevel.Hard && aiBudget > 0)
         {
             hardCheckTimer += Time.deltaTime;
             if (hardCheckTimer >= hardRecheckInterval)
@@ -121,14 +119,11 @@ public class EnemySpawner : MonoBehaviour
                 hardCheckTimer = 0f;
                 if (HasTowerLayoutChanged())
                 {
-                    Debug.Log("🧠 Hard AI adapting mid-wave...");
                     int remaining = Mathf.Max(0, aiBudget - aiSpent);
                     BuildWaveQueue(remaining);
                 }
             }
         }
-
-        // =====================================
 
         if (timeSinceLastSpawn >= (1f / enemiesPerSecond))
         {
@@ -136,7 +131,7 @@ public class EnemySpawner : MonoBehaviour
 
             if (enemiesLeftToSpawn > 0)
             {
-                SpawnEnemy(enemyPrefabs[0]); // Walker only for early waves
+                SpawnEnemy(enemyPrefabs[0]);
                 enemiesLeftToSpawn--;
             }
             else if (aiBudget > aiSpent)
@@ -175,11 +170,25 @@ public class EnemySpawner : MonoBehaviour
     private IEnumerator NextWaveDelay()
     {
         yield return new WaitForSeconds(timeBetweenWaves);
+
+        // 🔥 NEW: Wave clear hook
+        OnWaveCleared(currentWave);
+
         waitingForWaveEnd = false;
         isSpawningWave = false;
 
         if (startWaveButton != null)
             startWaveButton.interactable = true;
+    }
+
+    // 🔥 NEW: Handles events for when specific waves are beaten
+    private void OnWaveCleared(int waveNumber)
+    {
+        if (waveNumber == 50)
+        {
+            // TODO: Implement wave 50 reward, unlock, or special event
+            Debug.Log("🎉 Wave 50 cleared! Special event goes here.");
+        }
     }
 
     private void SpawnEnemy(GameObject prefab)
@@ -196,7 +205,6 @@ public class EnemySpawner : MonoBehaviour
     {
         if (isSpawningWave || waitingForWaveEnd)
         {
-            Debug.Log("⚠️ Cannot start new wave yet!");
             return;
         }
         StartCoroutine(WaveSpawn());
@@ -251,21 +259,18 @@ public class EnemySpawner : MonoBehaviour
         string diff = LevelManager.main.GetDifficulty().ToString();
         int hp = LevelManager.main.GetPlayerHP();
         int gold = LevelManager.main.GetPlayerGold();
-        int wave = currentWave;
 
         Dictionary<string, int> towerCounts = new();
         foreach (var tower in BuildManager.PlacedTowers)
         {
             if (tower == null) continue;
             string name = tower.name.Replace("(Clone)", "").Trim();
-            if (towerCounts.ContainsKey(name))
-                towerCounts[name]++;
-            else
-                towerCounts[name] = 1;
+            if (!towerCounts.ContainsKey(name)) towerCounts[name] = 0;
+            towerCounts[name]++;
         }
 
         Debug.Log("===========================================");
-        Debug.Log($"📢 STARTING WAVE {wave}");
+        Debug.Log($"📢 STARTING WAVE {currentWave}");
         Debug.Log($"Difficulty: {diff}");
         Debug.Log($"Player HP: {hp}");
         Debug.Log($"Player Gold: {gold}");
@@ -276,18 +281,14 @@ public class EnemySpawner : MonoBehaviour
 
     private int GetDifficultyScale()
     {
-        switch (LevelManager.main.difficulty)
+        switch (LevelManager.main.GetDifficulty())
         {
-            case LevelManager.Difficulty.Easy: return 1;
-            case LevelManager.Difficulty.Medium: return 2;
-            case LevelManager.Difficulty.Hard: return 3;
-            default: return 2;
+            case DifficultyLevel.Easy: return 1;
+            case DifficultyLevel.Normal: return 2;
+            case DifficultyLevel.Hard: return 3;
         }
+        return 2;
     }
-
-    // ==============================
-    // AI SELECTION + QUEUE LOGIC
-    // ==============================
 
     private GameObject ChooseEnemy()
     {
@@ -306,7 +307,8 @@ public class EnemySpawner : MonoBehaviour
             return SafeEnemy(id);
         else if (next is List<int> combo)
         {
-            foreach (var i in combo) activeComboBuffer.Enqueue(i);
+            foreach (var i in combo)
+                activeComboBuffer.Enqueue(i);
             return SafeEnemy(activeComboBuffer.Dequeue());
         }
 
@@ -324,21 +326,23 @@ public class EnemySpawner : MonoBehaviour
         waveQueue.Clear();
         activeComboBuffer.Clear();
 
-        var diff = LevelManager.main.GetDifficulty();
+        DifficultyLevel diff = LevelManager.main.GetDifficulty();
         float randomPercent;
         float comboChance;
 
         switch (diff)
         {
-            case LevelManager.Difficulty.Easy:
+            case DifficultyLevel.Easy:
                 randomPercent = Random.Range(0.5f, 1f);
                 comboChance = 0.25f;
                 break;
-            case LevelManager.Difficulty.Medium:
+
+            case DifficultyLevel.Normal:
                 randomPercent = Random.Range(0.25f, 0.75f);
-                comboChance = 0.5f;
+                comboChance = 0.50f;
                 break;
-            case LevelManager.Difficulty.Hard:
+
+            case DifficultyLevel.Hard:
             default:
                 randomPercent = Random.Range(0f, 0.25f);
                 comboChance = 0.75f;
@@ -346,7 +350,7 @@ public class EnemySpawner : MonoBehaviour
         }
 
         int randomBudget = Mathf.FloorToInt(remainingBudget * randomPercent);
-        int strategyBudget = Mathf.Max(0, remainingBudget - randomBudget);
+        int strategyBudget = Mathf.Max(remainingBudget - randomBudget, 0);
 
         List<int> unlocked = GetUnlockedEnemies();
         if (unlocked.Count == 0)
@@ -356,7 +360,8 @@ public class EnemySpawner : MonoBehaviour
         }
 
         var towers = CountPlacedTowersNormalized();
-        string topTower = null, secondTower = null;
+        string topTower = null;
+        string secondTower = null;
 
         if (towers.Count > 0)
         {
@@ -367,15 +372,12 @@ public class EnemySpawner : MonoBehaviour
         }
 
         List<object> chunks = new();
-
-        // Random portion
         SpendRandom(chunks, unlocked, randomBudget);
-        // Strategy portion
         SpendStrategy(chunks, unlocked, strategyBudget, comboChance, topTower, secondTower);
-
-        // Shuffle preserving combos
         chunks = ShufflePreservingCombos(chunks);
-        foreach (var c in chunks) waveQueue.Enqueue(c);
+
+        foreach (var c in chunks)
+            waveQueue.Enqueue(c);
     }
 
     private void SpendRandom(List<object> chunks, List<int> unlocked, int budget)
@@ -385,8 +387,9 @@ public class EnemySpawner : MonoBehaviour
         {
             int id = unlocked[Random.Range(0, unlocked.Count)];
             int cost = enemyPrefabs[id].GetComponent<EnemyStats>().price;
-            if (cost <= 0) cost = 1;
+
             if (spent + cost > budget) break;
+            if (cost <= 0) cost = 1;
 
             chunks.Add(id);
             spent += cost;
@@ -397,7 +400,6 @@ public class EnemySpawner : MonoBehaviour
     {
         int spent = 0;
 
-        // Try combos
         if (Random.value < comboChance)
         {
             (int a, int b) combo = enemyCombos[Random.Range(0, enemyCombos.Count)];
@@ -405,6 +407,7 @@ public class EnemySpawner : MonoBehaviour
             {
                 int cost = enemyPrefabs[combo.a].GetComponent<EnemyStats>().price +
                            enemyPrefabs[combo.b].GetComponent<EnemyStats>().price;
+
                 if (spent + cost <= budget)
                 {
                     chunks.Add(new List<int> { combo.a, combo.b });
@@ -416,16 +419,19 @@ public class EnemySpawner : MonoBehaviour
         List<int> counterPool = new();
         if (!string.IsNullOrEmpty(topTower) && towerCounters.ContainsKey(topTower))
             counterPool.AddRange(towerCounters[topTower]);
+
         if (!string.IsNullOrEmpty(secondTower) && towerCounters.ContainsKey(secondTower))
             counterPool.AddRange(towerCounters[secondTower]);
+
         counterPool.RemoveAll(e => !unlocked.Contains(e));
 
         while (spent < budget && counterPool.Count > 0)
         {
             int id = counterPool[Random.Range(0, counterPool.Count)];
             int cost = enemyPrefabs[id].GetComponent<EnemyStats>().price;
-            if (cost <= 0) cost = 1;
+
             if (spent + cost > budget) break;
+            if (cost <= 0) cost = 1;
 
             chunks.Add(id);
             spent += cost;
@@ -446,24 +452,36 @@ public class EnemySpawner : MonoBehaviour
     {
         List<int> available = new();
         foreach (var kvp in enemyUnlocks)
-            if (currentWave >= kvp.Key) available.AddRange(kvp.Value);
+            if (currentWave >= kvp.Key)
+                available.AddRange(kvp.Value);
+
         available.RemoveAll(i => i < 0 || i >= enemyPrefabs.Length);
-        if (available.Count == 0) available.Add(0);
+
+        if (available.Count == 0)
+            available.Add(0);
+
         return available;
     }
 
     private Dictionary<string, int> CountPlacedTowersNormalized()
     {
         Dictionary<string, int> counts = new();
+
         foreach (var t in BuildManager.PlacedTowers)
         {
             if (t == null) continue;
+
             string name = t.name.Replace("(Clone)", "").Trim().ToLower();
             string key = NormalizeTowerKey(name);
+
             if (string.IsNullOrEmpty(key)) continue;
-            if (!counts.ContainsKey(key)) counts[key] = 0;
+
+            if (!counts.ContainsKey(key))
+                counts[key] = 0;
+
             counts[key]++;
         }
+
         return counts;
     }
 
@@ -484,13 +502,16 @@ public class EnemySpawner : MonoBehaviour
     private bool HasTowerLayoutChanged()
     {
         int hash = 0;
+
         foreach (var t in BuildManager.PlacedTowers)
         {
             if (t == null) continue;
+
             string n = NormalizeTowerKey(t.name.Replace("(Clone)", "").Trim().ToLower());
             if (!string.IsNullOrEmpty(n))
                 hash ^= n.GetHashCode();
         }
+
         bool changed = hash != lastTowerHash;
         lastTowerHash = hash;
         return changed;

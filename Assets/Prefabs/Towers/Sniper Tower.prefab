@@ -491,6 +491,7 @@ GameObject:
   - component: {fileID: 4832181356057777529}
   - component: {fileID: 7317960158696861142}
   - component: {fileID: 4826244788717349931}
+  - component: {fileID: 7391728699982547209}
   m_Layer: 0
   m_Name: Sniper Tower
   m_TagString: Untagged
@@ -585,8 +586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb6c9f52cb528ef498e8719db66054cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerBase
-  towerName: Sniper Tower
-  unlockWave: 9
+  unlockWave: 1
   price: 300
   attackSpeed: 0.25
   targetingRange: 10
@@ -596,3 +596,102 @@ MonoBehaviour:
   - {fileID: 5949977281163251761, guid: 6496a7e15ab00aa44a66445f50e82bca, type: 3}
   turretRotationPoint: {fileID: 4832181356057777529}
   firePoint: {fileID: 6852746594264192452}
+  shootSFX: {fileID: 8300000, guid: 7ec3d6ce7e5796b4cb3825b91e60b5c5, type: 3}
+  shootSource: {fileID: 7391728699982547209}
+--- !u!82 &7391728699982547209
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4469597355193236192}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.15
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

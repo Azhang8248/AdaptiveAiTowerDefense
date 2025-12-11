@@ -7,6 +7,11 @@ public class Shield : MonoBehaviour
     [SerializeField] private ShieldBar shieldBar;
     public int currentShield { get; private set; }
 
+    [Header("Audio")]
+    [SerializeField] AudioClip shieldSFX;
+    [SerializeField] AudioSource shieldSource;
+    private Animator animator;
+
     private void Awake()
     {
         currentShield = maxShield;
@@ -38,6 +43,14 @@ public class Shield : MonoBehaviour
 
     private void DisableShield()
     {
+        animator = GetComponentInChildren<Animator>();
+        animator.SetTrigger("ShieldBroken");
+        
+        if(shieldSFX != null & shieldSource != null)
+        {
+            shieldSource.PlayOneShot(shieldSFX, 1f);
+        }
+
         if (shieldBar != null)
         {
             shieldBar.gameObject.SetActive(false);

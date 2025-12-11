@@ -4,7 +4,7 @@ public class PoisonTower : TowerBase
 {
     [Header("Poison Settings")]
     [SerializeField] private GameObject poisonZonePrefab;
-    [SerializeField] private float zoneOffset = 0.2f;
+    [SerializeField] private float zoneOffset = 0.2f; // small forward offset if needed
 
     protected override void Fire()
     {
@@ -13,6 +13,14 @@ public class PoisonTower : TowerBase
         {
             Vector3 pos = firePoint.position + firePoint.up * zoneOffset;
             Instantiate(poisonZonePrefab, pos, Quaternion.identity);
+
+            if(shootSFX != null && shootSource != null)
+            {
+                shootSource.PlayOneShot(shootSFX);
+            }  
         }
+
+        // OPTIONAL: call base Fire() if you still want bullets
+        // base.Fire();
     }
-};
+}

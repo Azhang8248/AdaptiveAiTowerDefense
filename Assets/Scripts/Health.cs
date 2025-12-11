@@ -8,31 +8,21 @@ public class Health : MonoBehaviour
 
     [SerializeField] private HealthBar healthBar;
 
-    private void Awake()
-    {
-        if (healthBar == null) 
-            healthBar = GetComponentInChildren<HealthBar>();
-    }
-
     // Other scripts can subscribe to this (e.g. Slime)
     public event Action OnDeath;
 
     // Called by EnemyStats when the enemy spawns
     public void InitializeHealth(float newMaxHP)
     {
-        maxHitPoints = Mathf.Max(1, newMaxHP);
+        maxHitPoints = newMaxHP;
         currentHitPoints = maxHitPoints;
-        UpdateBarFull();
-    }
 
-    private void UpdateBarFull()
-    {
         if (healthBar != null)
-            healthBar.SetCurrentHealth(currentHitPoints);
+            healthBar.UpdateBar(maxHitPoints, currentHitPoints);
     }
 
     /// <summary>
-    /// Deals float damage — supports decimal amounts like 0.1f, 0.25f, etc.
+    /// Deals float damage � supports decimal amounts like 0.1f, 0.25f, etc.
     /// Handles shields as an extra HP layer (no overflow to HP if shield breaks).
     /// </summary>
     public void TakeDamage(float dmg)
@@ -42,14 +32,14 @@ public class Health : MonoBehaviour
         if (shield != null && shield.IsActive())
         {
             shield.TakeShieldDamage(dmg);
-            return;
+            return; // Shield absorbed the hit; don't affect health yet.
         }
 
         // --- Apply HP damage ---
         currentHitPoints -= dmg;
         currentHitPoints = Mathf.Max(currentHitPoints, 0f);
 
-        if (healthBar != null) 
+        if (healthBar != null)
             healthBar.SetCurrentHealth(currentHitPoints);
 
         // --- Handle death ---
@@ -64,7 +54,7 @@ public class Health : MonoBehaviour
     private void Die()
     {
         // Notify spawner that an enemy died
-        EnemySpawner.onEnemyDestroy?.Invoke();
+        EnemySpawner.onEnemyDestroy.Invoke();
         OnDeath?.Invoke();
 
         // Grant player gold based on enemy price
@@ -80,5 +70,3 @@ public class Health : MonoBehaviour
         Destroy(gameObject);
     }
 }
-
-
