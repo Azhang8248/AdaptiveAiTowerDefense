@@ -19,7 +19,7 @@ public class BazookaBullet : BulletBase
     {
         if (!other.CompareTag("Enemy")) return;
 
-        // Direct hit → then explode
+        // Direct hit, then explode
         Explode();
     }
 

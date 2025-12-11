@@ -48,26 +48,26 @@ public class BulletBase : MonoBehaviour
         Shield shield = other.GetComponent<Shield>();
         Health hp = other.GetComponent<Health>();
 
-        // --- Plasma bullet does bonus to shields ---
+        // Plasma bullet does bonus to shields 
         if (gameObject.name.Contains("Plasma Bullet") && shield != null && shield.IsActive())
             finalDamage *= 2.5f;
 
         bool hitShield = false;
 
-        // --- Handle shield first ---
+        // Handle shield first 
         if (shield != null && shield.IsActive())
         {
             hitShield = true;
-            shield.TakeShieldDamage(finalDamage);   // 👈 encapsulated call
+            shield.TakeShieldDamage(finalDamage);   // encapsulated call
         }
 
-        // --- Only damage health if shield is gone or nonexistent ---
+        // Only damage health if shield is gone or nonexistent 
         if (!hitShield && hp != null)
             hp.TakeDamage(finalDamage);
 
         TryApplySpecialEffect(other.gameObject);
 
-        // --- AOE damage ---
+        // AOE damage 
         if (aoeRadius > 0f)
         {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, aoeRadius);
@@ -87,7 +87,7 @@ public class BulletBase : MonoBehaviour
                 if (s != null && s.IsActive())
                 {
                     aoeHitShield = true;
-                    s.TakeShieldDamage(aoeDamage);   // 👈 encapsulated call
+                    s.TakeShieldDamage(aoeDamage);   // encapsulated call
                 }
 
                 if (!aoeHitShield && h != null)

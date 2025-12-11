@@ -75,7 +75,7 @@ public class Turret : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             float distance = Vector2.Distance(transform.position, enemy.transform.position);
-            if (distance < shortestDistance && distance <= range)   // <-- use base 'range'
+            if (distance < shortestDistance && distance <= range)   //  use base 'range'
             {
                 shortestDistance = distance;
                 nearest = enemy.transform;
@@ -121,7 +121,7 @@ public class Turret : MonoBehaviour
             return;
         }
 
-        LevelManager.main.SpendGold(cost);  // ✅ now it actually subtracts
+        LevelManager.main.SpendGold(cost);  
         level++;
 
         fireRate = CalculateBPS();

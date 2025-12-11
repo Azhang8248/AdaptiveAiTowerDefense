@@ -52,7 +52,7 @@ public class Slime : MonoBehaviour
             GameObject clone = Instantiate(slimePrefab, spawnPos, Quaternion.identity);
             clone.transform.localScale = newScale;
 
-            // ↓ Set inactive temporarily so Start() doesn’t run with wrong values
+            // Set inactive temporarily so Start() doesn’t run with wrong values
             clone.SetActive(false);
 
             EnemyMovement cloneMovement = clone.GetComponent<EnemyMovement>();

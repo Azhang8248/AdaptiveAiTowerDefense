@@ -19,7 +19,7 @@ public class ShopManager : MonoBehaviour
 
     [Header("Button Colors")]
     [SerializeField] private Color normalColor = Color.white;
-    [SerializeField] private Color selectedColor = new Color32(136, 136, 136, 255); // ✅ #888888
+    [SerializeField] private Color selectedColor = new Color32(136, 136, 136, 255); // #888888
     [SerializeField] private Color normalTextColor = Color.black;
     [SerializeField] private Color selectedTextColor = Color.white;
 
@@ -57,9 +57,9 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    // ==============================
+
     // UI REFRESH
-    // ==============================
+
     private void RefreshAllButtonTexts()
     {
         if (BuildManager.main == null) return;
@@ -103,9 +103,9 @@ public class ShopManager : MonoBehaviour
         return field != null ? (int)field.GetValue(tower) : 0;
     }
 
-    // ==============================
+
     // SHOP TOGGLE
-    // ==============================
+
     public void TogglePanel()
     {
         isOpen = !isOpen;
@@ -150,9 +150,9 @@ public class ShopManager : MonoBehaviour
         panel.anchoredPosition = targetPos;
     }
 
-    // ==============================
+
     // BUTTON HANDLING
-    // ==============================
+
     private void OnTowerButtonClicked(int index)
     {
         BuildManager.main.SetSelectedTower(index);
@@ -215,9 +215,8 @@ public class ShopManager : MonoBehaviour
         selectedButtonIndex = -1;
     }
 
-    // ==============================
     // UNLOCK HANDLING
-    // ==============================
+
     public void RefreshTowerUnlocks()
     {
         if (BuildManager.main == null || towerButtons == null) return;

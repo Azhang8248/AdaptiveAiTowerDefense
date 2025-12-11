@@ -73,7 +73,7 @@ public class EnemySpawner : MonoBehaviour
         if (startWaveButton != null)
             startWaveButton.onClick.AddListener(OnStartWaveButtonPressed);
         else
-            Debug.LogWarning("⚠️ Start Wave Button not assigned in EnemySpawner!");
+            Debug.LogWarning("Start Wave Button not assigned in EnemySpawner!");
 
         InitializeEnemyUnlocks();
     }
@@ -171,7 +171,7 @@ public class EnemySpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(timeBetweenWaves);
 
-        // 🔥 NEW: Wave clear hook
+        // Wave clear hook
         OnWaveCleared(currentWave);
 
         waitingForWaveEnd = false;
@@ -181,13 +181,13 @@ public class EnemySpawner : MonoBehaviour
             startWaveButton.interactable = true;
     }
 
-    // 🔥 NEW: Handles events for when specific waves are beaten
+    // Handles events for when specific waves are beaten
     private void OnWaveCleared(int waveNumber)
     {
         if (waveNumber == 50)
         {
             // TODO: Implement wave 50 reward, unlock, or special event
-            Debug.Log("🎉 Wave 50 cleared! Special event goes here.");
+            Debug.Log("Wave 50 cleared! Special event goes here.");
         }
     }
 
@@ -270,7 +270,7 @@ public class EnemySpawner : MonoBehaviour
         }
 
         Debug.Log("===========================================");
-        Debug.Log($"📢 STARTING WAVE {currentWave}");
+        Debug.Log($"STARTING WAVE {currentWave}");
         Debug.Log($"Difficulty: {diff}");
         Debug.Log($"Player HP: {hp}");
         Debug.Log($"Player Gold: {gold}");

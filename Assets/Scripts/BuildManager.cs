@@ -22,16 +22,16 @@ public class BuildManager : MonoBehaviour
             towerCounts[i] = 0;
     }
 
-    // ==============================
+
     // TOWER SELECTION
-    // ==============================
+
     public TowerBase GetSelectedTower() => towers[selectedTowerIndex];
     public int GetSelectedIndex() => selectedTowerIndex;
     public void SetSelectedTower(int index) => selectedTowerIndex = index;
 
-    // ==============================
+
     // BUILD TRACKING
-    // ==============================
+
     public void RegisterBuiltTower(int index)
     {
         if (towerCounts.ContainsKey(index))

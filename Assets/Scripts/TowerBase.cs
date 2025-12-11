@@ -37,7 +37,7 @@ public class TowerBase : MonoBehaviour
 
     private void Update()
     {
-        // 🔹 If target died or left range → instantly reacquire
+        // If target died or left range, instantly reacquire
         if (target == null || Vector2.Distance(transform.position, target.position) > targetingRange)
       {
         target = FindFurthestTarget();
@@ -50,7 +50,7 @@ public class TowerBase : MonoBehaviour
       }
 
 
-        // 🔹 Periodic refresh (still useful if enemies reshuffle)
+        // Periodic refresh (still useful if enemies reshuffle)
         targetRefreshTimer -= Time.deltaTime;
         if (targetRefreshTimer <= 0f)
         {

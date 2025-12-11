@@ -13,7 +13,7 @@ public class Plot : MonoBehaviour
     {
         startColor = sr.color;
 
-        // ✅ Make plot 25% visible (75% transparent)
+        // Make plot 25% visible (75% transparent)
         Color c = sr.color;
         c.a = .1f;
         sr.color = c;
@@ -22,7 +22,7 @@ public class Plot : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        // 🔒 Disable hover when shop open
+        // Disable hover when shop open
         if (FindFirstObjectByType<ShopManager>()?.IsOpen == true)
             return;
 
@@ -39,7 +39,7 @@ public class Plot : MonoBehaviour
 
     private void OnMouseDown()
     {
-        // 🔒 Ignore clicks when shop open
+        // Ignore clicks when shop open
         if (FindFirstObjectByType<ShopManager>()?.IsOpen == true)
             return;
 
@@ -49,14 +49,14 @@ public class Plot : MonoBehaviour
         TowerBase towerToBuild = BuildManager.main.GetSelectedTower();
         if (towerToBuild == null)
         {
-            Debug.LogWarning("No tower selected!");
+            Debug.LogWarning("No tower selected");
             return;
         }
 
         // Check if the player can afford it
         if (towerToBuildPrice(towerToBuild) > LevelManager.main.playerGold)
         {
-            Debug.Log("You cannot afford this tower!");
+            Debug.Log("You cannot afford this tower");
             return;
         }
 

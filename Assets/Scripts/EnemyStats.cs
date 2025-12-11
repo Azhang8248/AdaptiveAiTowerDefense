@@ -13,7 +13,7 @@ public class EnemyStats : MonoBehaviour
     {
         EnemyMovement movement = GetComponent<EnemyMovement>();
         if (movement != null)
-            movement.SetMoveSpeed(moveSpeed); // safe: SetMoveSpeed now exists
+            movement.SetMoveSpeed(moveSpeed);
 
         Health health = GetComponent<Health>();
         if (health != null)

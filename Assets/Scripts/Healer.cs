@@ -58,7 +58,7 @@ public class Healer : MonoBehaviour
 
         if (healList.Count == 0) return;
 
-        // Sorts by max HP � prioritizes tankier allies
+        // Sorts by max HP, prioritizes tankier allies
         healList.Sort((a, b) => b.max.CompareTo(a.max));
 
         for (int i = 0; i < healList.Count && i < maxTargets; i++)

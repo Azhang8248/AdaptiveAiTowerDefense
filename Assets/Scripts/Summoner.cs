@@ -24,7 +24,7 @@ private Animator animator;
     {
         enemyMovement = GetComponent<EnemyMovement>();
         if (enemyMovement == null)
-            Debug.LogWarning($"⚠️ {gameObject.name} is missing EnemyMovement!");
+            Debug.LogWarning($"{gameObject.name} is missing EnemyMovement");
     }
 
     private void Update()
@@ -45,13 +45,13 @@ private Animator animator;
         
         if (summonPrefab == null)
         {
-            Debug.LogWarning($"⚠️ {gameObject.name} tried to summon but no prefab assigned!");
+            Debug.LogWarning($"{gameObject.name} tried to summon but no prefab assigned");
             return;
         }
 
         if (enemyMovement == null)
         {
-            Debug.LogWarning($"⚠️ {gameObject.name} has no EnemyMovement — cannot assign path to summons!");
+            Debug.LogWarning($"{gameObject.name} has no EnemyMovement");
             return;
         }
 
@@ -73,7 +73,7 @@ private Animator animator;
             }
             else
             {
-                Debug.LogWarning($"⚠️ {summoned.name} has no EnemyMovement component!");
+                Debug.LogWarning($"{summoned.name} has no EnemyMovement component");
             }
 
                 
@@ -87,7 +87,7 @@ private Animator animator;
             RegisterSummonToSpawner();
         }
 
-        Debug.Log($"🧙‍♂️ {gameObject.name} summoned {numberOfSummons} allies!");
+        Debug.Log($"{gameObject.name} summoned {numberOfSummons} allies");
     }
 
     private void RegisterSummonToSpawner()
@@ -96,8 +96,6 @@ private Animator animator;
         var spawner = FindFirstObjectByType<EnemySpawner>();
         if (spawner != null)
         {
-            // Hacky but ensures the wave doesn’t end early
-            // Because we can’t directly access enemiesAlive (it’s private)
             // You can modify EnemySpawner to expose a method instead:
             // spawner.RegisterEnemy();
         }

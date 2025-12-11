@@ -19,7 +19,7 @@ public class EnemyMovement : MonoBehaviour
     private float slowTimer = 0f;
     private float slowMultiplier = 1f;
 
-    private Vector2 lastPosition; // 🔹 to track movement direction over time
+    private Vector2 lastPosition; // to track movement direction over time
 
     private void Start()
     {
@@ -29,7 +29,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (pathPoints == null || pathPoints.Length == 0)
         {
-            Debug.LogError($"❌ {name} has no path assigned!");
+            Debug.LogError($"{name} has no path assigned!");
             return;
         }
 
@@ -50,12 +50,12 @@ public class EnemyMovement : MonoBehaviour
         }
 
         MoveAlongPath();
-        RotateTowardsMovement(); // 🔹 separate, cleaner rotation logic
+        RotateTowardsMovement(); // separate, cleaner rotation logic
     }
 
-    // =====================================================
+
     // PUBLIC METHODS
-    // =====================================================
+
 
     public void SetPath(Transform[] points)
     {
@@ -89,9 +89,7 @@ public class EnemyMovement : MonoBehaviour
         currentSpeed = baseSpeed * slowMultiplier;
     }
 
-    // =====================================================
     // MOVEMENT + ROTATION
-    // =====================================================
 
     private void MoveAlongPath()
     {
